@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Take-Away-Server", "Take-Away-Server\Take-Away-Server.csproj", "{844E75F3-61D7-4D56-B598-F98D3FDDCC83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take-Away-Server", "Take-Away-Server\Take-Away-Server.csproj", "{844E75F3-61D7-4D56-B598-F98D3FDDCC83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Take-Away-Client", "Take-Away-Client\Take-Away-Client.csproj", "{E9F726C9-1199-40E7-B103-9D333008F3E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take-Away-Client", "Take-Away-Client\Take-Away-Client.csproj", "{E9F726C9-1199-40E7-B103-9D333008F3E7}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Take-Away-Data", "Take-Away-Data\Take-Away-Data.shproj", "{A0264875-5B83-4470-BF22-DA1F51D980C7}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Take-Away-Data\Take-Away-Data.projitems*{a0264875-5b83-4470-bf22-da1f51d980c7}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
