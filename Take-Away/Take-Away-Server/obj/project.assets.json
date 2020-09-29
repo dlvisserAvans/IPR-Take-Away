@@ -1,0 +1,65 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": []
+  },
+  "packageFolders": {
+    "C:\\Users\\Dave-\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
+      "projectName": "Take-Away-Server",
+      "projectPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
+      "packagesPath": "C:\\Users\\Dave-\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\Dave-\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
