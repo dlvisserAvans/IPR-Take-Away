@@ -7,11 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take-Away-Server", "Take-Aw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take-Away-Client", "Take-Away-Client\Take-Away-Client.csproj", "{E9F726C9-1199-40E7-B103-9D333008F3E7}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Take-Away-Data", "Take-Away-Data\Take-Away-Data.shproj", "{A0264875-5B83-4470-BF22-DA1F51D980C7}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Take-Away-NetworkUtil", "Take-Away-NetworkUtils\Take-Away-NetworkUtil.shproj", "{C938AAFF-E78D-446F-B3BF-FF5268D13F76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{77431712-C15D-480A-A623-AC835AA979EF}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Take-Away-Data\Take-Away-Data.projitems*{a0264875-5b83-4470-bf22-da1f51d980c7}*SharedItemsImports = 13
+		Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems*{844e75f3-61d7-4d56-b598-f98d3fddcc83}*SharedItemsImports = 5
+		Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems*{c938aaff-e78d-446f-b3bf-ff5268d13f76}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +29,10 @@ Global
 		{E9F726C9-1199-40E7-B103-9D333008F3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9F726C9-1199-40E7-B103-9D333008F3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9F726C9-1199-40E7-B103-9D333008F3E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77431712-C15D-480A-A623-AC835AA979EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77431712-C15D-480A-A623-AC835AA979EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77431712-C15D-480A-A623-AC835AA979EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77431712-C15D-480A-A623-AC835AA979EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,19 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Dave-\\.nuget\\packages\\": {}
+    "C:\\Users\\jkbro\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
+      "projectUniqueName": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
       "projectName": "Take-Away-Server",
-      "projectPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
-      "packagesPath": "C:\\Users\\Dave-\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\obj\\",
+      "projectPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
+      "packagesPath": "C:\\Users\\jkbro\\.nuget\\packages\\",
+      "outputPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Dave-\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jkbro\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
