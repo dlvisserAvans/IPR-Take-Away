@@ -5,7 +5,7 @@ using Take_Away_Data;
 
 namespace Take_Away_Data
 {
-    class Product
+    struct Product
     {
         private string productName { get; set; }
         private double price { get; set; }
