@@ -17,18 +17,23 @@ namespace Take_Away_Server
             listener = new TcpListener(IPAddress.Any, 12345);
             listener.Start();
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
+            Console.ReadLine();
+
+  
         }
 
         private static void OnConnect(IAsyncResult asyncResult)
         {
             var tcpClient = listener.EndAcceptTcpClient(asyncResult);
             Console.WriteLine("Client connected");
-            clients.Add(new )
+            clients.Add(new ClientHandler(tcpClient));
+            listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
 
         internal static void Disconnect(ClientHandler clientHandler)
         {
             clients.Remove(clientHandler);
+            Console.WriteLine("Client disconnected");
         }
     }
 }
