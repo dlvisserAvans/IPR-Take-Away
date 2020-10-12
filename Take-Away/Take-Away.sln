@@ -9,12 +9,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take-Away-Client", "Take-Aw
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Take-Away-NetworkUtil", "Take-Away-NetworkUtils\Take-Away-NetworkUtil.shproj", "{C938AAFF-E78D-446F-B3BF-FF5268D13F76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{77431712-C15D-480A-A623-AC835AA979EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{77431712-C15D-480A-A623-AC835AA979EF}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Take-Away-Data", "Take-Away-Data\Take-Away-Data.shproj", "{A0264875-5B83-4470-BF22-DA1F51D980C7}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Take-Away-Data\Take-Away-Data.projitems*{844e75f3-61d7-4d56-b598-f98d3fddcc83}*SharedItemsImports = 5
 		Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems*{844e75f3-61d7-4d56-b598-f98d3fddcc83}*SharedItemsImports = 5
+		Take-Away-Data\Take-Away-Data.projitems*{a0264875-5b83-4470-bf22-da1f51d980c7}*SharedItemsImports = 13
 		Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems*{c938aaff-e78d-446f-b3bf-ff5268d13f76}*SharedItemsImports = 13
+		Take-Away-Data\Take-Away-Data.projitems*{e9f726c9-1199-40e7-b103-9d333008f3e7}*SharedItemsImports = 5
+		Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems*{e9f726c9-1199-40e7-b103-9d333008f3e7}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -8,4 +8,10 @@
 
   <Import Project="..\Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems" Label="Shared" />
 
+  <Import Project="..\Take-Away-Data\Take-Away-Data.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Take-Away-Client\Take-Away-Client.csproj" />
+  </ItemGroup>
+
 </Project>
