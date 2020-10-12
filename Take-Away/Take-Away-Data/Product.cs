@@ -11,13 +11,6 @@ namespace Take_Away_Data
         private double price { get; set; }
         private ProductType productType { get; set; }
 
-        public Product()
-        {
-            productName = "AardappelFlap";
-            price = 5.0;
-            productType = productType.Dessert;
-        }
-
         public Product(string productName, double price, ProductType productType)
         {
             this.productName = productName;

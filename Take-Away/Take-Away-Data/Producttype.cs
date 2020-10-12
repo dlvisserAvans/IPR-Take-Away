@@ -4,12 +4,14 @@ using System.Text;
 
 namespace Take_Away_Data
 {
-    class ProductType
+    enum ProductType
     {
         Fries,
         Burger,
         Soda,
-        MilkShake,
+        Milkshake,
+        Icecream,
+        Snack,
         Dessert
     }
 }
