@@ -9,6 +9,7 @@
     <Import_RootNamespace>Take_Away_Data</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Restaurant.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProductType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Product.cs" />
   </ItemGroup>
