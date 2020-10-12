@@ -7,4 +7,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
+  <Import Project="..\Take-Away-Data\Take-Away-Data.projitems" Label="Shared" />
+
+  <Import Project="..\Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems" Label="Shared" />
+
 </Project>

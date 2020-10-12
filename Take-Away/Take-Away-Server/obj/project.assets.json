@@ -1,11 +1,33 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "Take-Away-Client/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/Take-Away-Client.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Take-Away-Client.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Take-Away-Client/1.0.0": {
+      "type": "project",
+      "path": "../Take-Away-Client/Take-Away-Client.csproj",
+      "msbuildProject": "../Take-Away-Client/Take-Away-Client.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "Take-Away-Client >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Dave-\\.nuget\\packages\\": {}
@@ -32,7 +54,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj": {
+              "projectPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -56,6 +82,9 @@
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App.WPF": {
+            "privateAssets": "none"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"

@@ -17,10 +17,13 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Take-Away-Data", "Take-Away
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Take-Away-Data\Take-Away-Data.projitems*{844e75f3-61d7-4d56-b598-f98d3fddcc83}*SharedItemsImports = 5
 		Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems*{844e75f3-61d7-4d56-b598-f98d3fddcc83}*SharedItemsImports = 5
 		Take-Away-Data\Take-Away-Data.projitems*{a0264875-5b83-4470-bf22-da1f51d980c7}*SharedItemsImports = 13
 		Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems*{c938aaff-e78d-446f-b3bf-ff5268d13f76}*SharedItemsImports = 13
 		Take-Away-Data\Take-Away-Data.projitems*{dd94d0a5-8f1c-4572-84b4-f9c98f2fa167}*SharedItemsImports = 5
+		Take-Away-Data\Take-Away-Data.projitems*{e9f726c9-1199-40e7-b103-9d333008f3e7}*SharedItemsImports = 5
+		Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems*{e9f726c9-1199-40e7-b103-9d333008f3e7}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

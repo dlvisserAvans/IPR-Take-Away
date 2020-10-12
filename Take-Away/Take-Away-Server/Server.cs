@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Net.WebSockets;
+using System.Runtime.CompilerServices;
+using Take_Away_Data;
 
 namespace Take_Away_Server
 {
@@ -10,6 +12,7 @@ namespace Take_Away_Server
     {
         private static TcpListener listener;
         private static List<ClientHandler> clients = new List<ClientHandler>();
+        private static List<Product> productList = new List<Product>();
         
         static void Main(string[] args)
         {
@@ -18,8 +21,6 @@ namespace Take_Away_Server
             listener.Start();
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
             Console.ReadLine();
-
-  
         }
 
         private static void OnConnect(IAsyncResult asyncResult)
@@ -34,6 +35,11 @@ namespace Take_Away_Server
         {
             clients.Remove(clientHandler);
             Console.WriteLine("Client disconnected");
+        }
+
+        public static void fillProductList()
+        {
+            
         }
     }
 }

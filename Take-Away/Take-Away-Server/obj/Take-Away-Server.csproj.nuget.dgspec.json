@@ -26,7 +26,11 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj": {
+                "projectPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -50,6 +54,9 @@
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Take_Away_Data
 {
-    enum ProductType
+    public enum ProductType
     {
         Fries,
         Burger,
