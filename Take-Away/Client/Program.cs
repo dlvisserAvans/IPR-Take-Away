@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Globalization;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
+using Take_Away_Data;
 
 namespace Client
 {
@@ -13,6 +16,7 @@ namespace Client
         private static NetworkStream networkStream;
         private static byte[] buffer = new byte[1024];
         private static string totalBuffer;
+        private static bool connected = false;
 
 
         private static string username;
@@ -27,6 +31,11 @@ namespace Client
             client = new TcpClient();
             client.BeginConnect("localhost", 12345, new AsyncCallback(OnConnect), null);
 
+            while (!connected)
+            {
+            }
+            Write("requestRestaurant");
+
             while (true)
             {
                 //handle this
@@ -38,6 +47,7 @@ namespace Client
             client.EndConnect(ar);
             networkStream = client.GetStream();
             networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+            connected = true;
             Write($"login\r\n{username}\r\n{password}");
         }
 
@@ -74,6 +84,14 @@ namespace Client
                 case "sendOrder": //message type 'sendOrder'
 
                     // Code to recieve the order of the customer
+                    break;
+                case "requestRestaurant":
+                    dynamic json = packetData[1];
+                    List<Product> products = JsonConvert.DeserializeObject<List<Product>>(json);
+                    foreach (Product p in products)
+                    {
+                        Console.WriteLine(p);
+                    }
                     break;
                 case "sendList":
                     int size = int.Parse(packetData[1]);

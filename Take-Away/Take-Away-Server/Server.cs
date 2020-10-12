@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using Take_Away_Data;
+using Take_Away_SQLConnection;
 
 namespace Take_Away_Server
 {
@@ -16,6 +17,11 @@ namespace Take_Away_Server
         
         static void Main(string[] args)
         {
+            SQLDatabaseManager databaseManager = new SQLDatabaseManager("takeaway");
+            productList = databaseManager.getProductsFromRestaurantIntoList("Het Hoekje");
+
+         
+
             Console.WriteLine("Server starting...");
             listener = new TcpListener(IPAddress.Any, 12345);
             listener.Start();
@@ -27,7 +33,7 @@ namespace Take_Away_Server
         {
             var tcpClient = listener.EndAcceptTcpClient(asyncResult);
             Console.WriteLine("Client connected");
-            clients.Add(new ClientHandler(tcpClient));
+            clients.Add(new ClientHandler(tcpClient, productList));
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
 

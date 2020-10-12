@@ -17,6 +17,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Take-Away-Data", "Take-Away
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Take-Away-Data\Take-Away-Data.projitems*{77431712-c15d-480a-a623-ac835aa979ef}*SharedItemsImports = 5
 		Take-Away-Data\Take-Away-Data.projitems*{844e75f3-61d7-4d56-b598-f98d3fddcc83}*SharedItemsImports = 5
 		Take-Away-NetworkUtils\Take-Away-NetworkUtils.projitems*{844e75f3-61d7-4d56-b598-f98d3fddcc83}*SharedItemsImports = 5
 		Take-Away-Data\Take-Away-Data.projitems*{a0264875-5b83-4470-bf22-da1f51d980c7}*SharedItemsImports = 13
