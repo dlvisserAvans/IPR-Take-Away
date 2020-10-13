@@ -1,12 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using Take_Away_Data;
 using Take_Away_NetworkUtil;
+using Take_Away_SQLConnection;
 
 namespace Take_Away_Server
 {
@@ -16,15 +18,20 @@ namespace Take_Away_Server
         private NetworkStream networkStream;
         private byte[] buffer = new byte[1024];
         private List<Product> productList = new List<Product>();
+        private List<Restaurant> restaurantList = new List<Restaurant>();
+        private List<Product> chosenProductList;
         private string totalBuffer = "";
         private string username;
         private string password;
+        private SQLDatabaseManager SQLDatabaseManager;
+        private User user;
 
-        public ClientHandler(TcpClient tcpClient, List<Product> products)
+        public ClientHandler(TcpClient tcpClient, SQLDatabaseManager databaseManager)
         {
             this.tcpClient = tcpClient;
             this.networkStream = this.tcpClient.GetStream();
-            productList = products;
+            SQLDatabaseManager = databaseManager;
+            restaurantList = databaseManager.getAllRestaurantsIntoList();
             this.networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
 
@@ -60,13 +67,10 @@ namespace Take_Away_Server
             {
                 case "login": //message type 'login'
                     Console.WriteLine("Login received");
-                    Console.WriteLine(packetData[1] + "   " + packetData[2]);
-                    if (!assertPacketData(packetData, 3))
+                    if (!assertPacketData(packetData, 1))
                         return;
                     Console.WriteLine("correct packetData");
-                    this.username = packetData[1];
-                    this.password = packetData[2];
-                    Console.WriteLine($"User {this.username} is connected!");
+                    Console.WriteLine($"Client connected!");
                     Write("login\r\nok");
                     // Code to receive the login
                     break;
@@ -74,13 +78,31 @@ namespace Take_Away_Server
 
                     Console.WriteLine(productList.Count);
                     
-                    string test = JsonConvert.SerializeObject(productList);
+                    string listRestaurant = JsonConvert.SerializeObject(restaurantList);
 
-                    Write("requestRestaurant\r\n" + test);
+                    Write("requestRestaurant\r\n" + listRestaurant);
 
                     break;
-                case "sendOrder": //message type 'sendOrder'
+                case "requestProducts":
+                    string chosenRestaurant = packetData[1];
+                    productList = SQLDatabaseManager.getProductsFromRestaurantIntoList(chosenRestaurant);
 
+                    string listProducts = JsonConvert.SerializeObject(productList);
+                    Write("requestProducts\r\n" + listProducts);
+                    break;
+
+                case "sendOrder": //message type 'sendOrder'
+                    dynamic jsonProducts = packetData[1];
+                    chosenProductList = JsonConvert.DeserializeObject<List<Product>>(jsonProducts);
+
+                    dynamic jsonUser = packetData[2];
+                    user = JsonConvert.DeserializeObject<User>(jsonUser);
+
+                    Console.WriteLine($"{user.FullName} has chosen the following products: ");
+                    foreach(Product p in chosenProductList)
+                    {
+                        Console.WriteLine(p);
+                    }
                     // Code to recieve the order of the customer
                     break;
             }

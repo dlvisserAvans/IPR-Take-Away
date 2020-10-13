@@ -11,12 +11,15 @@ namespace Take_Away_SQLConnection
     {
         private string databaseName;
         private string connstring;
+
+        private string DBDave = "!\\P8QYii@*Ss*3E@4jMo5aXbXEJP";
+        private string DBJK = "Jkbiseenjongen";
         private MySqlConnection context { get; set; }
        
         public SQLDatabaseManager(string databaseName)
         {
             this.databaseName = databaseName;
-            connstring = string.Format("Server=localhost; database={0}; UID=root; password=!\\P8QYii@*Ss*3E@4jMo5aXbXEJP", this.databaseName);
+            connstring = string.Format("Server=localhost; database={0}; UID=root;" + $"password={DBJK}", this.databaseName);
             context = new MySqlConnection(connstring);
             context.Open();
         }
@@ -36,7 +39,7 @@ namespace Take_Away_SQLConnection
                     int productPrice = reader.GetInt16(1);
                     string productTypeString = reader.GetString(2);
                     ProductType productType = Enum.Parse<ProductType>(productTypeString);
-                    productList.Add(new Product { Name = productName, Price = productPrice, Type = productType });
+                    productList.Add(new Product { Name = productName, Price = productPrice, Type = productType});
                 }
             }
                    
@@ -54,8 +57,7 @@ namespace Take_Away_SQLConnection
                 {
                     string restaurantName = reader.GetString(0);
                     string restaurantAddress = reader.GetString(1);
-                    Restaurant newRestaurant = new Restaurant(restaurantName, restaurantAddress);
-                    restaurantList.Add(newRestaurant);
+                    restaurantList.Add(new Restaurant { Name = restaurantName, Address = restaurantAddress });
                 }
             }
             return restaurantList;
