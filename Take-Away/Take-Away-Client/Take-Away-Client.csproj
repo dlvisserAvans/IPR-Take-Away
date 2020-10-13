@@ -5,6 +5,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Take_Away_Client</RootNamespace>
     <UseWPF>true</UseWPF>
+    <StartupObject></StartupObject>
+    <AssemblyName>Take-Away-Client</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
