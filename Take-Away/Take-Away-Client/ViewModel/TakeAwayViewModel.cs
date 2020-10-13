@@ -12,6 +12,7 @@ namespace Take_Away_Client.ViewModel
     class TakeAwayViewModel : ObservableObject
     {
         private ObservableCollection<Product> mAllProducts;
+        private ObservableCollection<Product> mSelectedProducts;
         private Product mAllSelectedProduct = null;
 
         public TakeAwayViewModel()
@@ -24,7 +25,9 @@ namespace Take_Away_Client.ViewModel
                 new Product{productName = "Milkshake", productPrice = 3.0, productType = ProductType.MilkShake},
                 new Product{productName = "Soda", productPrice = 4.0, productType = ProductType.Soda},
                 new Product{productName = "Dessert", productPrice = 5.0, productType = ProductType.Dessert}
-            };          
+            };
+
+            mSelectedProducts = new ObservableCollection<Product>();
         }
 
         public ObservableCollection<Product> Products
@@ -36,6 +39,19 @@ namespace Take_Away_Client.ViewModel
             set
             {
                 mAllProducts = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Product> SelectedProducts
+        {
+            get
+            {
+                return mSelectedProducts;
+            }
+            set
+            {
+                mSelectedProducts = value;
                 NotifyPropertyChanged();
             }
         }
@@ -77,7 +93,7 @@ namespace Take_Away_Client.ViewModel
 
         private void AddProduct()
         {
-            
+            SelectedProducts.Add(SelectedProduct);
         }
 
         private ICommand mDeleteCommand;
