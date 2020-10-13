@@ -20,11 +20,11 @@ namespace Take_Away_Client.ViewModel
             mAllProducts = new ObservableCollection<Product>
             {
                 //code to implement products, but for now some hardcode products :)
-                new Product{productName = "Burger", productPrice = 1.0, productType = ProductType.Burger},
-                new Product{productName = "Fries", productPrice = 2.0, productType = ProductType.Fries},
-                new Product{productName = "Milkshake", productPrice = 3.0, productType = ProductType.MilkShake},
-                new Product{productName = "Soda", productPrice = 4.0, productType = ProductType.Soda},
-                new Product{productName = "Dessert", productPrice = 5.0, productType = ProductType.Dessert}
+                new Product{Name = "Burger", Price = 1.0, Type = ProductType.Burger},
+                new Product{Name = "Fries", Price = 2.0, Type = ProductType.Fries},
+                new Product{Name = "Milkshake", Price = 3.0, Type = ProductType.Milkshake},
+                new Product{Name = "Soda", Price = 4.0, Type = ProductType.Soda},
+                new Product{Name = "Dessert", Price = 5.0, Type = ProductType.Dessert}
             };
 
             mSelectedProducts = new ObservableCollection<Product>();

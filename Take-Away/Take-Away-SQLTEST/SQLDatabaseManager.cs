@@ -60,5 +60,10 @@ namespace Take_Away_SQLConnection
             }
             return restaurantList;
         }
+
+        public void createReceipt(Receipt receipt)
+        {
+            var cmd = new MySqlCommand("INSERT INTO ");
+        }
     }
 }
