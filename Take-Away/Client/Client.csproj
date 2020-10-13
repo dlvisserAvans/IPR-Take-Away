@@ -5,4 +5,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Take-Away-Client\Take-Away-Client.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\Take-Away-Data\Take-Away-Data.projitems" Label="Shared" />
+
 </Project>

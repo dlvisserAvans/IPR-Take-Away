@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Take_Away_Client.Utils;
 using Take_Away_Data;
+using Take_Away_Client.Utils;
 
 namespace Take_Away_Data
 {
     public class Product : ObservableObject
     {
-        public string productName { get; set; }
-        public double productPrice { get; set; }
-        public ProductType productType { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public ProductType Type { get; set; }
 
         public override string ToString()
         {
-            return "ProductName: " + productName + "\tProductType: " + productType + "\tPrice: " + price;
+            return "ProductName: " + Name + "\tProductType: " + Type + "\tPrice: " + Price;
         }
     }
 }

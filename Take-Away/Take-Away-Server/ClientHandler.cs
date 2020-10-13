@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
+using Take_Away_Data;
 using Take_Away_NetworkUtil;
 
 namespace Take_Away_Server
@@ -13,14 +15,16 @@ namespace Take_Away_Server
         private TcpClient tcpClient;
         private NetworkStream networkStream;
         private byte[] buffer = new byte[1024];
+        private List<Product> productList = new List<Product>();
         private string totalBuffer = "";
         private string username;
         private string password;
 
-        public ClientHandler(TcpClient tcpClient)
+        public ClientHandler(TcpClient tcpClient, List<Product> products)
         {
             this.tcpClient = tcpClient;
             this.networkStream = this.tcpClient.GetStream();
+            productList = products;
             this.networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
 
@@ -65,6 +69,15 @@ namespace Take_Away_Server
                     Console.WriteLine($"User {this.username} is connected!");
                     Write("login\r\nok");
                     // Code to receive the login
+                    break;
+                case "requestRestaurant":
+
+                    Console.WriteLine(productList.Count);
+                    
+                    string test = JsonConvert.SerializeObject(productList);
+
+                    Write("requestRestaurant\r\n" + test);
+
                     break;
                 case "sendOrder": //message type 'sendOrder'
 

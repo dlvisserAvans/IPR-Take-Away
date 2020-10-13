@@ -10,6 +10,10 @@
     <PackageReference Include="MySqlConnector" Version="1.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Take-Away-Client\Take-Away-Client.csproj" />
+  </ItemGroup>
+
   <Import Project="..\Take-Away-Data\Take-Away-Data.projitems" Label="Shared" />
 
 </Project>
