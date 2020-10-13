@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
@@ -22,9 +23,13 @@ namespace Take_Away_Client.ViewModel
     class TakeAwayViewModel : ObservableObject
     {
         private ConcurrentObservableCollection<Product> mAllProducts;
+        private ConcurrentObservableCollection<Restaurant> mAllRestaurants;
+
         private ObservableCollection<Product> mSelectedProducts;
+
         private Product mAllSelectedProduct = null;
         private Product mChosenSelectedProduct = null;
+        private Restaurant mChosenRestaurant = null;
 
         private TcpClient client;
         private NetworkStream networkStream;
@@ -36,9 +41,18 @@ namespace Take_Away_Client.ViewModel
         private string password = "1234";
         private int mProductAmount = 1;
 
+        private User user;
+        private string mFirstName;
+        private string mLastName;
+        private string mPostalCode;
+        private string mHouseNumber;
+
         public TakeAwayViewModel()
         {
             mAllProducts = new ConcurrentObservableCollection<Product>();
+            mAllRestaurants = new ConcurrentObservableCollection<Restaurant>();
+
+            user = new User();
 
             client = new TcpClient();
             client.BeginConnect("localhost", 12345, new AsyncCallback(OnConnect), null);
@@ -54,7 +68,7 @@ namespace Take_Away_Client.ViewModel
             networkStream = client.GetStream();
             networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
             connected = true;
-            Write($"login\r\n{username}\r\n{password}");
+            Write($"login");
         }
 
         public void OnRead(IAsyncResult ar)
@@ -91,21 +105,23 @@ namespace Take_Away_Client.ViewModel
 
                     // Code to recieve the order of the customer
                     break;
-                case "requestRestaurant":
-                    dynamic json = packetData[1];
-                    List<Product> products = JsonConvert.DeserializeObject<List<Product>>(json);
+                case "requestProducts":
+                    dynamic productJson = packetData[1];
+                    List<Product> products = JsonConvert.DeserializeObject<List<Product>>(productJson);
 
                     Task.Run(() => Parallel.ForEach(products, product =>
                     {
                         mAllProducts.Add(new Product { Name = product.Name, Price = product.Price, Type = product.Type});
                     }));
                     break;
-                case "sendList":
-                    int size = int.Parse(packetData[1]);
-                    for (int i = 0; i < size; i++)
-                    {
+                case "requestRestaurant":
+                    dynamic restaurantJson = packetData[1];
+                    List<Restaurant> restaurants = JsonConvert.DeserializeObject<List<Restaurant>>(restaurantJson);
 
-                    }
+                    Task.Run(() => Parallel.ForEach(restaurants, restaurant =>
+                    {
+                        mAllRestaurants.Add(new Restaurant { Name = restaurant.Name, Address = restaurant.Address });
+                    }));
                     break;
             }
         }
@@ -117,6 +133,62 @@ namespace Take_Away_Client.ViewModel
             networkStream.Flush();
         }
 
+        public string FirstName
+        {
+            get
+            {
+                return mFirstName;
+            }
+            set
+            {
+                mFirstName = value;
+                NotifyPropertyChanged();
+                user.FirstName = mFirstName;
+            }
+        }
+
+        public string LastName
+        {
+            get
+            {
+                return mLastName;
+            }
+            set
+            {
+                mLastName = value;
+                NotifyPropertyChanged();
+                user.LastName = mLastName;
+            }
+        }
+
+        public string PostalCode
+        {
+            get
+            {
+                return mPostalCode;
+            }
+            set
+            {
+                mPostalCode = value;
+                NotifyPropertyChanged();
+                user.PostalCode = mPostalCode;
+            }
+        }
+
+        public string HouseNumber
+        {
+            get
+            {
+                return mHouseNumber;
+            }
+            set
+            {
+                mHouseNumber = value;
+                NotifyPropertyChanged();
+                user.HouseNumber = mHouseNumber;
+            }
+        }
+        
         public int productAmount
         {
             get
@@ -143,6 +215,19 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
+        public ConcurrentObservableCollection<Restaurant> Restaurants
+        {
+            get
+            {
+                return mAllRestaurants;
+            }
+            set
+            {
+                mAllRestaurants = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public ObservableCollection<Product> SelectedProducts
         {
             get
@@ -153,6 +238,29 @@ namespace Take_Away_Client.ViewModel
             {
                 mSelectedProducts = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        public Restaurant SelectedRestaurant
+        {
+            get
+            {
+                return mChosenRestaurant;
+            }
+            set
+            {
+                if(mChosenRestaurant != value)
+                {
+                    if(mChosenRestaurant == null)
+                    {
+                        mChosenRestaurant = new Restaurant();
+                    }
+                    mChosenRestaurant = value;
+                    mAllProducts.Clear();
+                    mSelectedProducts.Clear();
+                    Write($"requestProducts\r\n{mChosenRestaurant.Name}");
+                    NotifyPropertyChanged();
+                }
             }
         }
 
@@ -258,7 +366,67 @@ namespace Take_Away_Client.ViewModel
         private void SendProducts()
         {
             string list = JsonConvert.SerializeObject(SelectedProducts);
-            Write($"sendOrder\r\n{list}");
+            string userJson = JsonConvert.SerializeObject(user);
+            Write($"sendOrder\r\n{list}\r\n{userJson}");
+            SelectedProducts.Clear();
+        }
+
+        private ICommand mImportCommand;
+        public ICommand ImportCommand
+        {
+            get
+            {
+                if (mImportCommand == null)
+                {
+                    mImportCommand = new RelayCommand(
+                        (dialogType) => {
+                            var dialog = Activator.CreateInstance(dialogType as Type) as IFileDialogWindow;
+                            var fileNames = dialog?.ExecuteFileDialog(null, "JSON|*.json");
+                            if (fileNames.Count > 0)
+                            {
+                                ImportData(fileNames[0]);
+                            }
+                        },
+                        (param) => (true)
+                        );
+                }
+                return mImportCommand;
+            }
+        }
+
+        private void ImportData(string filename)
+        {
+
+            string input = File.ReadAllText(filename);
+            SelectedProducts = JsonConvert.DeserializeObject<ObservableCollection<Product>>(input);
+        }
+
+        private ICommand mExportCommand;
+        public ICommand ExportCommand
+        {
+            get
+            {
+                if (mExportCommand == null)
+                {
+                    mExportCommand = new RelayCommand(
+                        (dialogType) => {
+                            var dlgObj = Activator.CreateInstance(dialogType as Type) as IFileDialogWindow;
+                            var fileNames = dlgObj?.ExecuteFileDialog(null, "JSON|*.json");
+                            if (fileNames.Count > 0)
+                            {
+                                ExportData(fileNames[0]);
+                            }
+                        },
+                    param => (SelectedProducts.Count > 0));
+                }
+                return mExportCommand;
+            }
+        }
+
+        private void ExportData(string filename)
+        {
+            string products = JsonConvert.SerializeObject(SelectedProducts);
+            File.WriteAllText(filename, products);
             SelectedProducts.Clear();
         }
     }

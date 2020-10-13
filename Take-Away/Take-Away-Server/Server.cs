@@ -13,15 +13,11 @@ namespace Take_Away_Server
     {
         private static TcpListener listener;
         private static List<ClientHandler> clients = new List<ClientHandler>();
-        private static List<Product> productList = new List<Product>();
-        
+        private static List<Restaurant> restaurantList = new List<Restaurant>();
+        private static SQLDatabaseManager databaseManager = new SQLDatabaseManager("takeaway");
+
         static void Main(string[] args)
         {
-            SQLDatabaseManager databaseManager = new SQLDatabaseManager("takeaway");
-            productList = databaseManager.getProductsFromRestaurantIntoList("Het Hoekje");
-
-         
-
             Console.WriteLine("Server starting...");
             listener = new TcpListener(IPAddress.Any, 12345);
             listener.Start();
@@ -33,7 +29,7 @@ namespace Take_Away_Server
         {
             var tcpClient = listener.EndAcceptTcpClient(asyncResult);
             Console.WriteLine("Client connected");
-            clients.Add(new ClientHandler(tcpClient, productList));
+            clients.Add(new ClientHandler(tcpClient, databaseManager));
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
 

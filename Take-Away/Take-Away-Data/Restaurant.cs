@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Take_Away_Client.Utils;
 
 namespace Take_Away_Data
 {
-    struct Restaurant
+    public class Restaurant : ObservableObject
     {
-        public string restaurantName { get; set; }
-        private string restaurantAddress { get; set; }
-
-        public Restaurant(string restaurantName, string restaurantAddress)
-        {
-            this.restaurantName = restaurantName;
-            this.restaurantAddress = restaurantAddress;
-        }
-
+        public string Name { get; set; }
+        public string Address { get; set; }
 
         public override string ToString()
         {
-            return "RestaurantName: " + restaurantName + "\tAddress: " + restaurantAddress;
+            return "RestaurantName: " + Name + "\tAddress: " + Address;
         }
     }
 }

@@ -7,17 +7,20 @@
         xmlns:utils="clr-namespace:Take_Away_Client.Utils"
         xmlns:local="clr-namespace:Take_Away_Client.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="150"/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="150"/>
             <RowDefinition Height="25"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
-        <Label Content="All products" Grid.Row="0" Grid.Column="0"/>
-        <ListView x:Name="ProductGrid" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Products.CollectionView}" SelectedItem="{Binding AllSelectedProduct}" Margin="10">
+        <ComboBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Width="400" ItemsSource="{Binding Restaurants.CollectionView}" SelectedItem="{Binding SelectedRestaurant}" Text="Choose your restaurant" IsReadOnly="True" IsEditable="True"/>
+        <Label Content="All products" Grid.Row="1" Grid.Column="0"/>
+        <ListView x:Name="ProductGrid" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Products.CollectionView}" SelectedItem="{Binding AllSelectedProduct}" Margin="10">
             <ListView.View>
                 <GridView x:Name="gridAllProducts">
                     <GridViewColumn Header="Product name" DisplayMemberBinding="{Binding Name}" Width="100"/>
@@ -26,8 +29,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="selected products" Grid.Row="2" Grid.Column="0"/>
-        <ListView x:Name="selectedProductGrid" Grid.Row="3" Grid.Column="0" ItemsSource="{Binding SelectedProducts, Mode=TwoWay}" SelectedItem="{Binding ChosenSelectedProduct}" Margin="10">
+        <Label Content="selected products" Grid.Row="3" Grid.Column="0"/>
+        <ListView x:Name="selectedProductGrid" Grid.Row="4" Grid.Column="0" ItemsSource="{Binding SelectedProducts, Mode=TwoWay}" SelectedItem="{Binding ChosenSelectedProduct}" Margin="10">
             <ListView.View>
                 <GridView x:Name="gridSelectedProducts">
                     <GridViewColumn Header="Product name" DisplayMemberBinding="{Binding Name}" Width="100"/>
@@ -36,13 +39,24 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0">
+        <StackPanel Orientation="Horizontal" Grid.Row="5">
             <Button VerticalAlignment="Bottom" Content="Add" Name="btnAdd" Command="{Binding Path=AddCommand}" Width="100" Height="25"/>
             <Button VerticalAlignment="Bottom" Content="Delete" Name="btnDelete" Command="{Binding Path=DeleteCommand}" Width="100" Height="25"/>
             <Button VerticalAlignment="Bottom" Content="Send" Name="btnSend" Command="{Binding Path=SendCommand}" Width="100" Height="25"/>
             <TextBox VerticalAlignment="Bottom" Text="{Binding productAmount}" Name="tbProductAmount" Width="100" Height="25"/>
+            <Button VerticalAlignment="Bottom" Content="Import" Name="btnImport" Command="{Binding Path=ImportCommand}" Width="100" Height="25" CommandParameter="{x:Type utils:OpenFilesDialog}"/>
+            <Button VerticalAlignment="Bottom" Content="Export" Name="btnExport" Command="{Binding Path=ExportCommand}" Width="100" Height="25" CommandParameter="{x:Type utils:SaveFileDialog}"/>
         </StackPanel>
-        
+        <StackPanel Orientation="Vertical" Grid.Row="6">
+            <Label Content="First name: "/>
+            <TextBox Text="{Binding FirstName}" Width="400" HorizontalAlignment="Left" />
+            <Label Content="Last name: "/>
+            <TextBox Text="{Binding LastName}" Width="400" HorizontalAlignment="Left" />
+            <Label Content="Postal Code: "/>
+            <TextBox Text="{Binding PostalCode}" Width="400" HorizontalAlignment="Left" />
+            <Label Content="Housenumber: "/>
+            <TextBox Text="{Binding HouseNumber}" Width="400" HorizontalAlignment="Left" />
+        </StackPanel>
     </Grid>
     
 

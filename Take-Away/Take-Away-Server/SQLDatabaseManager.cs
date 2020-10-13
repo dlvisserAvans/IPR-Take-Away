@@ -57,8 +57,7 @@ namespace Take_Away_SQLConnection
                 {
                     string restaurantName = reader.GetString(0);
                     string restaurantAddress = reader.GetString(1);
-                    Restaurant newRestaurant = new Restaurant(restaurantName, restaurantAddress);
-                    restaurantList.Add(newRestaurant);
+                    restaurantList.Add(new Restaurant { Name = restaurantName, Address = restaurantAddress });
                 }
             }
             return restaurantList;
