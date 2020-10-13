@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
@@ -16,6 +17,7 @@ namespace Take_Away_Server
         private NetworkStream networkStream;
         private byte[] buffer = new byte[1024];
         private List<Product> productList = new List<Product>();
+        private List<Product> chosenProductList;
         private string totalBuffer = "";
         private string username;
         private string password;
@@ -74,13 +76,20 @@ namespace Take_Away_Server
 
                     Console.WriteLine(productList.Count);
                     
-                    string test = JsonConvert.SerializeObject(productList);
+                    string list = JsonConvert.SerializeObject(productList);
 
-                    Write("requestRestaurant\r\n" + test);
+                    Write("requestRestaurant\r\n" + list);
 
                     break;
                 case "sendOrder": //message type 'sendOrder'
+                    dynamic json = packetData[1];
+                    chosenProductList = JsonConvert.DeserializeObject<List<Product>>(json);
 
+                    Console.WriteLine($"{username} has chosen the following products: ");
+                    foreach(Product p in chosenProductList)
+                    {
+                        Console.WriteLine(p);
+                    }
                     // Code to recieve the order of the customer
                     break;
             }

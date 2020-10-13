@@ -1,9 +1,19 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Swordfish.NET.Collections;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Net.Http.Headers;
+using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Take_Away_Client.Utils;
 using Take_Away_Data;
 
@@ -11,26 +21,116 @@ namespace Take_Away_Client.ViewModel
 {
     class TakeAwayViewModel : ObservableObject
     {
-        private ObservableCollection<Product> mAllProducts;
+        private ConcurrentObservableCollection<Product> mAllProducts;
         private ObservableCollection<Product> mSelectedProducts;
         private Product mAllSelectedProduct = null;
+        private Product mChosenSelectedProduct = null;
+
+        private TcpClient client;
+        private NetworkStream networkStream;
+        private byte[] buffer = new byte[1024];
+        private string totalBuffer;
+        private bool connected = false;
+
+        private string username = "JKB";
+        private string password = "1234";
+        private int mProductAmount = 1;
 
         public TakeAwayViewModel()
         {
-            mAllProducts = new ObservableCollection<Product>
-            {
-                //code to implement products, but for now some hardcode products :)
-                new Product{productName = "Burger", productPrice = 1.0, productType = ProductType.Burger},
-                new Product{productName = "Fries", productPrice = 2.0, productType = ProductType.Fries},
-                new Product{productName = "Milkshake", productPrice = 3.0, productType = ProductType.MilkShake},
-                new Product{productName = "Soda", productPrice = 4.0, productType = ProductType.Soda},
-                new Product{productName = "Dessert", productPrice = 5.0, productType = ProductType.Dessert}
-            };
+            mAllProducts = new ConcurrentObservableCollection<Product>();
+
+            client = new TcpClient();
+            client.BeginConnect("localhost", 12345, new AsyncCallback(OnConnect), null);
+            while (!connected) { }
+            Write("requestRestaurant");
 
             mSelectedProducts = new ObservableCollection<Product>();
         }
 
-        public ObservableCollection<Product> Products
+        public void OnConnect(IAsyncResult ar)
+        {
+            client.EndConnect(ar);
+            networkStream = client.GetStream();
+            networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+            connected = true;
+            Write($"login\r\n{username}\r\n{password}");
+        }
+
+        public void OnRead(IAsyncResult ar)
+        {
+            int recievedBytes = networkStream.EndRead(ar);
+            string recievedText = Encoding.ASCII.GetString(buffer, 0, recievedBytes);
+            totalBuffer += recievedText;
+
+            while (totalBuffer.Contains("\r\n\r\n"))
+            {
+                string packet = totalBuffer.Substring(0, totalBuffer.IndexOf("\r\n\r\n"));
+                totalBuffer = totalBuffer.Substring(totalBuffer.IndexOf("\r\n\r\n") + 4);
+                string[] packetData = Regex.Split(packet, "\r\n");
+                handleData(packetData);
+            }
+            networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+        }
+
+        public void handleData(string[] packetData)
+        {
+            switch (packetData[0])
+            {
+                case "login": //message type 'login'
+                    if (packetData[1] == "ok")
+                    {
+                        Console.WriteLine("Logged in");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error");
+                    }
+                    break;
+                case "sendOrder": //message type 'sendOrder'
+
+                    // Code to recieve the order of the customer
+                    break;
+                case "requestRestaurant":
+                    dynamic json = packetData[1];
+                    List<Product> products = JsonConvert.DeserializeObject<List<Product>>(json);
+
+                    Task.Run(() => Parallel.ForEach(products, product =>
+                    {
+                        mAllProducts.Add(new Product { Name = product.Name, Price = product.Price, Type = product.Type});
+                    }));
+                    break;
+                case "sendList":
+                    int size = int.Parse(packetData[1]);
+                    for (int i = 0; i < size; i++)
+                    {
+
+                    }
+                    break;
+            }
+        }
+
+        public void Write(string data)
+        {
+            var dataAsBytes = Encoding.ASCII.GetBytes(data + "\r\n\r\n");
+            networkStream.Write(dataAsBytes, 0, dataAsBytes.Length);
+            networkStream.Flush();
+        }
+
+        public int productAmount
+        {
+            get
+            {
+                return mProductAmount;
+            }
+            set
+            {
+                mProductAmount = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ConcurrentObservableCollection<Product> Products
         {
             get 
             { 
@@ -56,7 +156,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public Product SelectedProduct
+        public Product AllSelectedProduct
         {
             get 
             { 
@@ -71,6 +171,26 @@ namespace Take_Away_Client.ViewModel
                         mAllSelectedProduct = new Product();
                     }
                     mAllSelectedProduct = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public Product ChosenSelectedProduct
+        {
+            get
+            {
+                return mChosenSelectedProduct;
+            }
+            set
+            {
+                if(mChosenSelectedProduct != value)
+                {
+                    if (mChosenSelectedProduct == null)
+                    {
+                        mChosenSelectedProduct = new Product();
+                    }
+                    mChosenSelectedProduct = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -93,7 +213,11 @@ namespace Take_Away_Client.ViewModel
 
         private void AddProduct()
         {
-            SelectedProducts.Add(SelectedProduct);
+            //if product exists, add just the amount
+            for (int i = 0; i < productAmount; i++)
+            {
+                SelectedProducts.Add(AllSelectedProduct);
+            }
         }
 
         private ICommand mDeleteCommand;
@@ -105,7 +229,7 @@ namespace Take_Away_Client.ViewModel
                 {
                     mDeleteCommand = new RelayCommand(
                         param => DeleteProduct(),
-                        param => (SelectedProduct != null));
+                        param => (ChosenSelectedProduct != null));
                 }
                 return mDeleteCommand;
             }
@@ -113,7 +237,29 @@ namespace Take_Away_Client.ViewModel
 
         private void DeleteProduct()
         {
+            SelectedProducts.Remove(ChosenSelectedProduct);
+        }
 
+        private ICommand mSendCommand;
+        public ICommand SendCommand
+        {
+            get
+            {
+                if(mSendCommand == null)
+                {
+                    mSendCommand = new RelayCommand(
+                        param => SendProducts(),
+                        param => (true));
+                }
+                return mSendCommand;
+            }
+        }
+
+        private void SendProducts()
+        {
+            string list = JsonConvert.SerializeObject(SelectedProducts);
+            Write($"sendOrder\r\n{list}");
+            SelectedProducts.Clear();
         }
     }
 }

@@ -20,9 +20,34 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "Swordfish.NET.CollectionsV3/3.3.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections.Immutable": "1.7.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Swordfish.NET.CollectionsV3.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Swordfish.NET.CollectionsV3.dll": {}
+        }
+      },
+      "System.Collections.Immutable/1.7.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/System.Collections.Immutable.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Collections.Immutable.dll": {}
+        }
+      },
       "Take-Away-Client/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
+          "Swordfish.NET.CollectionsV3": "3.3.1"
+        },
         "compile": {
           "bin/placeholder/Take-Away-Client.dll": {}
         },
@@ -97,6 +122,46 @@
         "packageIcon.png"
       ]
     },
+    "Swordfish.NET.CollectionsV3/3.3.1": {
+      "sha512": "RAIEVEOsl+W0kMngN6rHlzcX+Tcc7C773quMgUa+b8yxZeJiJm6Y7N/YIDcL6d+Eurwdo8JF6kDSqtBMQ0NlQQ==",
+      "type": "package",
+      "path": "swordfish.net.collectionsv3/3.3.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Swordfish.NET.CollectionsV3.dll",
+        "lib/net46/Swordfish.NET.CollectionsV3.dll",
+        "lib/netstandard2.0/Swordfish.NET.CollectionsV3.dll",
+        "swordfish.net.collectionsv3.3.3.1.nupkg.sha512",
+        "swordfish.net.collectionsv3.nuspec"
+      ]
+    },
+    "System.Collections.Immutable/1.7.1": {
+      "sha512": "B43Zsz5EfMwyEbnObwRxW5u85fzJma3lrDeGcSAV1qkhSRTNY5uXAByTn9h9ddNdhM+4/YoLc/CI43umjwIl9Q==",
+      "type": "package",
+      "path": "system.collections.immutable/1.7.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Collections.Immutable.dll",
+        "lib/net461/System.Collections.Immutable.xml",
+        "lib/netstandard1.0/System.Collections.Immutable.dll",
+        "lib/netstandard1.0/System.Collections.Immutable.xml",
+        "lib/netstandard1.3/System.Collections.Immutable.dll",
+        "lib/netstandard1.3/System.Collections.Immutable.xml",
+        "lib/netstandard2.0/System.Collections.Immutable.dll",
+        "lib/netstandard2.0/System.Collections.Immutable.xml",
+        "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll",
+        "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.xml",
+        "system.collections.immutable.1.7.1.nupkg.sha512",
+        "system.collections.immutable.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "Take-Away-Client/1.0.0": {
       "type": "project",
       "path": "../Take-Away-Client/Take-Away-Client.csproj",
@@ -111,19 +176,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dave-\\.nuget\\packages\\": {}
+    "C:\\Users\\jkbro\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
+      "projectUniqueName": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
       "projectName": "Take-Away-Server",
-      "projectPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
-      "packagesPath": "C:\\Users\\Dave-\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\obj\\",
+      "projectPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
+      "packagesPath": "C:\\Users\\jkbro\\.nuget\\packages\\",
+      "outputPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Dave-\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jkbro\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -136,8 +201,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj": {
-              "projectPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj"
+            "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj": {
+              "projectPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj"
             }
           }
         }
