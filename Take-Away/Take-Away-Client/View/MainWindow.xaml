@@ -7,18 +7,22 @@
         xmlns:utils="clr-namespace:Take_Away_Client.Utils"
         xmlns:local="clr-namespace:Take_Away_Client.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="700" Width="820">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <ComboBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Width="400" ItemsSource="{Binding Restaurants.CollectionView}" SelectedItem="{Binding SelectedRestaurant}" Text="Choose your restaurant" IsReadOnly="True" IsEditable="True"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Thanks for using TakeAway, please choose your restaurant:  " VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Width="380" ItemsSource="{Binding Restaurants.CollectionView}" SelectedItem="{Binding SelectedRestaurant}"  Text="{Binding SelectedRestaurant.Name}" IsReadOnly="True" IsEditable="True" Margin="10" Name="cbRestaurant"/>
         <Label Content="All products" Grid.Row="1" Grid.Column="0"/>
         <ListView x:Name="ProductGrid" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Products.CollectionView}" SelectedItem="{Binding AllSelectedProduct}" Margin="10">
             <ListView.View>
@@ -29,8 +33,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="selected products" Grid.Row="3" Grid.Column="0"/>
-        <ListView x:Name="selectedProductGrid" Grid.Row="4" Grid.Column="0" ItemsSource="{Binding SelectedProducts, Mode=TwoWay}" SelectedItem="{Binding ChosenSelectedProduct}" Margin="10">
+        <Label Content="selected products" Grid.Row="1" Grid.Column="1"/>
+        <ListView x:Name="selectedProductGrid" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding SelectedProducts, Mode=TwoWay}" SelectedItem="{Binding ChosenSelectedProduct}" Margin="10">
             <ListView.View>
                 <GridView x:Name="gridSelectedProducts">
                     <GridViewColumn Header="Product name" DisplayMemberBinding="{Binding Name}" Width="100"/>
@@ -39,24 +43,47 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Orientation="Horizontal" Grid.Row="5">
-            <Button VerticalAlignment="Bottom" Content="Add" Name="btnAdd" Command="{Binding Path=AddCommand}" Width="100" Height="25"/>
-            <Button VerticalAlignment="Bottom" Content="Delete" Name="btnDelete" Command="{Binding Path=DeleteCommand}" Width="100" Height="25"/>
-            <Button VerticalAlignment="Bottom" Content="Send" Name="btnSend" Command="{Binding Path=SendCommand}" Width="100" Height="25"/>
-            <TextBox VerticalAlignment="Bottom" Text="{Binding productAmount}" Name="tbProductAmount" Width="100" Height="25"/>
-            <Button VerticalAlignment="Bottom" Content="Import" Name="btnImport" Command="{Binding Path=ImportCommand}" Width="100" Height="25" CommandParameter="{x:Type utils:OpenFilesDialog}"/>
-            <Button VerticalAlignment="Bottom" Content="Export" Name="btnExport" Command="{Binding Path=ExportCommand}" Width="100" Height="25" CommandParameter="{x:Type utils:SaveFileDialog}"/>
-        </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="6">
-            <Label Content="First name: "/>
-            <TextBox Text="{Binding FirstName}" Width="400" HorizontalAlignment="Left" />
-            <Label Content="Last name: "/>
-            <TextBox Text="{Binding LastName}" Width="400" HorizontalAlignment="Left" />
-            <Label Content="Postal Code: "/>
-            <TextBox Text="{Binding PostalCode}" Width="400" HorizontalAlignment="Left" />
-            <Label Content="Housenumber: "/>
-            <TextBox Text="{Binding HouseNumber}" Width="400" HorizontalAlignment="Left" />
-        </StackPanel>
+        <Grid Grid.Row="3" Grid.Column="0" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="290"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="First name: " Grid.Row="0" Grid.Column="0"/>
+            <TextBox Text="{Binding FirstName}" Width="250" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Margin="2"/>
+            <Label Content="Last name: " Grid.Row="1" Grid.Column="0"/>
+            <TextBox Text="{Binding LastName}" Width="250" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" Margin="2"/>
+            <Label Content="Postal Code: " Grid.Row="2" Grid.Column="0"/>
+            <TextBox Text="{Binding PostalCode}" Width="250" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" Margin="2"/>
+            <Label Content="Housenumber: " Grid.Row="3" Grid.Column="0"/>
+            <TextBox Text="{Binding HouseNumber}" Width="250" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1" Margin="2"/>
+        </Grid>
+        <Button Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" Content="Send" Name="btnSend" Command="{Binding Path=SendCommand}" Width="100" Height="25" Margin="10"/>
+        <Grid Grid.Row="3" Grid.Column="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+            <Label Content="Product amount: " Grid.Row="0" Grid.Column="0" Margin="10" HorizontalAlignment="Right"/>
+            <TextBox Text="{Binding productAmount}" Name="tbProductAmount" Width="100" Height="25" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"/>
+            <Button Content="Add" Name="btnAdd" Command="{Binding Path=AddCommand}" Width="100" Height="25" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Margin="10"/>
+            <Button Content="Delete" Name="btnDelete" Command="{Binding Path=DeleteCommand}" Width="100" Height="25" Grid.Row="1" Grid.Column="0" />
+            <Button Content="Import" Name="btnImport" Command="{Binding Path=ImportCommand}" Width="100" Height="25" CommandParameter="{x:Type utils:OpenFilesDialog}" Grid.Row="1" Grid.Column="1"/>
+            <Button Content="Export" Name="btnExport" Command="{Binding Path=ExportCommand}" Width="100" Height="25" CommandParameter="{x:Type utils:SaveFileDialog}" Grid.Row="1" Grid.Column="2"/>
+            <Label Content="Total Price: " Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Height="35" FontWeight="Bold" FontSize="17" VerticalAlignment="Top"/>
+            <Label Content="{Binding productPriceString}" Grid.Row="2" Grid.Column="2" Height="35" FontWeight="Bold" FontSize="17" VerticalAlignment="Top"/>
+        </Grid>
     </Grid>
     
 
