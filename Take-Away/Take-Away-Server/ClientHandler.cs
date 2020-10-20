@@ -69,20 +69,16 @@ namespace Take_Away_Server
                     Console.WriteLine("Login received");
                     if (!assertPacketData(packetData, 1))
                         return;
-                    Console.WriteLine("correct packetData");
+
                     Console.WriteLine($"Client connected!");
                     Write("login\r\nok");
-                    // Code to receive the login
                     break;
+
                 case "requestRestaurant":
-
-                    Console.WriteLine(productList.Count);
-                    
                     string listRestaurant = JsonConvert.SerializeObject(restaurantList);
-
                     Write("requestRestaurant\r\n" + listRestaurant);
-
                     break;
+
                 case "requestProducts":
                     string chosenRestaurant = packetData[1];
                     productList = SQLDatabaseManager.getProductsFromRestaurantIntoList(chosenRestaurant);
@@ -98,12 +94,28 @@ namespace Take_Away_Server
                     dynamic jsonUser = packetData[2];
                     user = JsonConvert.DeserializeObject<User>(jsonUser);
 
-                    Console.WriteLine($"{user.FullName} has chosen the following products: ");
+                    Console.WriteLine($"{user.FullName} has chosen the following products (random): ");
                     foreach(Product p in chosenProductList)
                     {
                         Console.WriteLine(p);
                     }
-                    // Code to recieve the order of the customer
+
+                    Console.WriteLine($"{user.FullName} has chosen the following products (sorted): ");
+                    while (chosenProductList.Count > 0)
+                    {
+                        int amountInList = 1;
+                        Product product = chosenProductList[chosenProductList.Count - 1];
+                        for (int j = (chosenProductList.Count - 1); j > 0; j--)
+                        {
+                            if(product.Name.Equals(chosenProductList[j-1].Name) && product.Price.Equals(chosenProductList[j-1].Price))
+                            {
+                                amountInList++;
+                                chosenProductList.Remove(chosenProductList[j-1]);
+                            }
+                        }
+                        Console.WriteLine($"{product} amount: {amountInList}");
+                        chosenProductList.Remove(product);
+                    }
                     break;
             }
         }
@@ -119,7 +131,6 @@ namespace Take_Away_Server
         {
             if (packetData.Length < requiredLength)
             {
-                //Write("error");
                 return false;
             }
             return true;

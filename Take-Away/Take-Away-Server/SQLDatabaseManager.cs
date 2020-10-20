@@ -26,7 +26,7 @@ namespace Take_Away_SQLConnection
 
         public List<Product> getProductsFromRestaurantIntoList(string restaurantName)
         {
-            List<Product> productList = new List<Product> { };
+            List<Product> productList = new List<Product>();
             var cmd = new MySqlCommand("SELECT DISTINCT products.productname, products.productprice, products.producttype " +
                                        "FROM products, restaurants, restaurants_products WHERE restaurants.restaurantname = " +
                                        $"(\"{restaurantName}\") AND restaurants.restaurantname = restaurants_products.restaurantname AND products.productname = restaurants_products.productname", context);
@@ -36,7 +36,7 @@ namespace Take_Away_SQLConnection
                 while (reader.Read())
                 {
                     string productName = reader.GetString(0);
-                    int productPrice = reader.GetInt16(1);
+                    double productPrice = reader.GetDouble(1);
                     string productTypeString = reader.GetString(2);
                     ProductType productType = Enum.Parse<ProductType>(productTypeString);
                     productList.Add(new Product { Name = productName, Price = productPrice, Type = productType});

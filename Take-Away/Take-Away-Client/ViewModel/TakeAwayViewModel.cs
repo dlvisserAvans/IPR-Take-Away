@@ -40,6 +40,8 @@ namespace Take_Away_Client.ViewModel
         private string username = "JKB";
         private string password = "1234";
         private int mProductAmount = 1;
+        private double mProductPrice = 0.00d;
+        private string mProductPriceString = "0,00";
 
         private User user;
         private string mFirstName;
@@ -101,10 +103,7 @@ namespace Take_Away_Client.ViewModel
                         Console.WriteLine("Error");
                     }
                     break;
-                case "sendOrder": //message type 'sendOrder'
 
-                    // Code to recieve the order of the customer
-                    break;
                 case "requestProducts":
                     dynamic productJson = packetData[1];
                     List<Product> products = JsonConvert.DeserializeObject<List<Product>>(productJson);
@@ -114,6 +113,7 @@ namespace Take_Away_Client.ViewModel
                         mAllProducts.Add(new Product { Name = product.Name, Price = product.Price, Type = product.Type});
                     }));
                     break;
+
                 case "requestRestaurant":
                     dynamic restaurantJson = packetData[1];
                     List<Restaurant> restaurants = JsonConvert.DeserializeObject<List<Restaurant>>(restaurantJson);
@@ -189,6 +189,32 @@ namespace Take_Away_Client.ViewModel
             }
         }
         
+        public string productPriceString
+        {
+            get
+            {
+                return mProductPriceString;
+            }
+            set
+            {
+                mProductPriceString = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double productPrice
+        {
+            get
+            {
+                return mProductPrice;
+            }
+            set
+            {
+                mProductPrice = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public int productAmount
         {
             get
@@ -258,6 +284,7 @@ namespace Take_Away_Client.ViewModel
                     mChosenRestaurant = value;
                     mAllProducts.Clear();
                     mSelectedProducts.Clear();
+                    UpdatePrice();
                     Write($"requestProducts\r\n{mChosenRestaurant.Name}");
                     NotifyPropertyChanged();
                 }
@@ -326,6 +353,8 @@ namespace Take_Away_Client.ViewModel
             {
                 SelectedProducts.Add(AllSelectedProduct);
             }
+            productAmount = 1;
+            UpdatePrice();
         }
 
         private ICommand mDeleteCommand;
@@ -346,6 +375,7 @@ namespace Take_Away_Client.ViewModel
         private void DeleteProduct()
         {
             SelectedProducts.Remove(ChosenSelectedProduct);
+            UpdatePrice();
         }
 
         private ICommand mSendCommand;
@@ -365,10 +395,14 @@ namespace Take_Away_Client.ViewModel
 
         private void SendProducts()
         {
-            string list = JsonConvert.SerializeObject(SelectedProducts);
-            string userJson = JsonConvert.SerializeObject(user);
-            Write($"sendOrder\r\n{list}\r\n{userJson}");
-            SelectedProducts.Clear();
+            if (!(user.FirstName == null || user.LastName == null || user.PostalCode == null || user.HouseNumber == null))
+            {
+                string list = JsonConvert.SerializeObject(SelectedProducts);
+                string userJson = JsonConvert.SerializeObject(user);
+                Write($"sendOrder\r\n{list}\r\n{userJson}");
+                SelectedProducts.Clear();
+                UpdatePrice();
+            }            
         }
 
         private ICommand mImportCommand;
@@ -396,9 +430,14 @@ namespace Take_Away_Client.ViewModel
 
         private void ImportData(string filename)
         {
-
             string input = File.ReadAllText(filename);
-            SelectedProducts = JsonConvert.DeserializeObject<ObservableCollection<Product>>(input);
+            string separator = "-";
+            string[] content = input.Split(separator.ToCharArray());
+
+            SelectedRestaurant = JsonConvert.DeserializeObject < Restaurant > (content[0]);
+            SelectedProducts = JsonConvert.DeserializeObject<ObservableCollection<Product>>(content[1]);
+
+            UpdatePrice();
         }
 
         private ICommand mExportCommand;
@@ -410,8 +449,8 @@ namespace Take_Away_Client.ViewModel
                 {
                     mExportCommand = new RelayCommand(
                         (dialogType) => {
-                            var dlgObj = Activator.CreateInstance(dialogType as Type) as IFileDialogWindow;
-                            var fileNames = dlgObj?.ExecuteFileDialog(null, "JSON|*.json");
+                            var dialog = Activator.CreateInstance(dialogType as Type) as IFileDialogWindow;
+                            var fileNames = dialog?.ExecuteFileDialog(null, "JSON|*.json");
                             if (fileNames.Count > 0)
                             {
                                 ExportData(fileNames[0]);
@@ -425,9 +464,21 @@ namespace Take_Away_Client.ViewModel
 
         private void ExportData(string filename)
         {
+            string restaurant = JsonConvert.SerializeObject(SelectedRestaurant);
             string products = JsonConvert.SerializeObject(SelectedProducts);
-            File.WriteAllText(filename, products);
+            string data = $"{restaurant}-{products}";
+            File.WriteAllText(filename, data);
             SelectedProducts.Clear();
+        }
+
+        private void UpdatePrice()
+        {
+            productPrice = 0;
+            foreach (Product product in SelectedProducts)
+            {
+                productPrice += product.Price;
+            }
+            productPriceString = $"{productPrice:##0.00}";
         }
     }
 }
