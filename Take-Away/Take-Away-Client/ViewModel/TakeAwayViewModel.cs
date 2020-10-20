@@ -123,6 +123,17 @@ namespace Take_Away_Client.ViewModel
                         mAllRestaurants.Add(new Restaurant { Name = restaurant.Name, Address = restaurant.Address });
                     }));
                     break;
+                case "getReceipt":
+                    string receiptJson = packetData[1];
+                    string path = $@"{Environment.CurrentDirectory}\receipt-{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}.txt";
+                    File.WriteAllText(path, receiptJson);
+                    var p = new Process();
+                    p.StartInfo = new ProcessStartInfo(path)
+                    {
+                        UseShellExecute = true
+                    };
+                    p.Start();
+                    break;
             }
         }
 
@@ -399,7 +410,7 @@ namespace Take_Away_Client.ViewModel
             {
                 string list = JsonConvert.SerializeObject(SelectedProducts);
                 string userJson = JsonConvert.SerializeObject(user);
-                Write($"sendOrder\r\n{list}\r\n{userJson}");
+                Write($"sendOrder\r\n{list}\r\n{userJson}\r\n{SelectedRestaurant.Name}\r\n{productPrice}");
                 SelectedProducts.Clear();
                 UpdatePrice();
             }            
