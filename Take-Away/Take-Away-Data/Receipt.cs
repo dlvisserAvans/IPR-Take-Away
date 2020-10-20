@@ -17,14 +17,14 @@ namespace Take_Away_Data
         {
             string productdata = countedProducts();
 
-            return $"Thankyou for your order! The ordered food from {restaurantName} will arrive shortly" + 
+            return $"Thank you for your order! The ordered food from {restaurantName} will arrive shortly\n" + 
                    $"\nName: {buyername}" + 
                    $"\nPostal Code: {buyerPostalCode}" + 
                    $"\nHouse number: {buyerHouseNumber}" +
                    $"\n====================================" + 
                    $"{productdata}" +
                    $"\n====================================" +
-                   $"\nThe total price of their order is : {totalPrice}";
+                   $"\nThe total price of your order is : {totalPrice:##0.00}";
         }
 
         private string countedProducts()
@@ -42,7 +42,7 @@ namespace Take_Away_Data
                         boughtProducts.Remove(boughtProducts[j - 1]);
                     }
                 }
-                productData += $"\n{amountInList} {product.Name} €{product.Price * amountInList}";
+                productData += $"\n{amountInList} {product.Name} {product.Price * amountInList}";
                 boughtProducts.Remove(product);
             }
 

@@ -127,7 +127,12 @@ namespace Take_Away_Client.ViewModel
                     string receiptJson = packetData[1];
                     string path = $@"{Environment.CurrentDirectory}\receipt-{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}.txt";
                     File.WriteAllText(path, receiptJson);
-                    System.Diagnostics.Process.Start(path);
+                    var p = new Process();
+                    p.StartInfo = new ProcessStartInfo(path)
+                    {
+                        UseShellExecute = true
+                    };
+                    p.Start();
                     break;
             }
         }
