@@ -65,15 +65,6 @@ namespace Take_Away_Server
             //The first packet is the header (message type). the other packets are the data
             switch (packetData[0])
             {
-                case "login": //message type 'login'
-                    Console.WriteLine("Login received");
-                    if (!assertPacketData(packetData, 1))
-                        return;
-
-                    Console.WriteLine($"Client connected!");
-                    Write("login\r\nok");
-                    break;
-
                 case "requestRestaurant":
                     string listRestaurant = JsonConvert.SerializeObject(restaurantList);
                     Write("requestRestaurant\r\n" + listRestaurant);
@@ -120,7 +111,6 @@ namespace Take_Away_Server
         private void GenerateReceipt(string restaurant, double price)
         {
             Receipt receipt = new Receipt();
-            Debug.WriteLine("Restaurant: " + restaurant);
             receipt.restaurantName = restaurant;
             receipt.buyername = user.FirstName + " " + user.LastName;
             receipt.buyerPostalCode = user.PostalCode;

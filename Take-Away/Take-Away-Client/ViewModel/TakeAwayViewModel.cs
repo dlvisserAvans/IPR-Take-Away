@@ -93,17 +93,6 @@ namespace Take_Away_Client.ViewModel
         {
             switch (packetData[0])
             {
-                case "login": //message type 'login'
-                    if (packetData[1] == "ok")
-                    {
-                        Console.WriteLine("Logged in");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Error");
-                    }
-                    break;
-
                 case "requestProducts":
                     dynamic productJson = packetData[1];
                     List<Product> products = JsonConvert.DeserializeObject<List<Product>>(productJson);
