@@ -12,6 +12,7 @@ namespace Take_Away_Data
         Milkshake,
         Icecream,
         Snack,
-        Dessert
+        Dessert,
+        Pizza
     }
 }

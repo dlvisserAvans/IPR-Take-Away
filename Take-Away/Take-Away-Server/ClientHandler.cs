@@ -35,6 +35,9 @@ namespace Take_Away_Server
             this.networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
 
+        /* The clienthandler starts its reading for data. Whenever the data is received it is put in a buffer which will then be searched for commands.
+         * The protocol is separated by a double "enter" provided by \r\n\r\n. This data will then be sent to the handleData method where the clienthandler sends out it's reaction. 
+         */
         public void OnRead(IAsyncResult asyncResult)
         {
             try
@@ -42,7 +45,7 @@ namespace Take_Away_Server
                 int recievedBytes = this.networkStream.EndRead(asyncResult);
                 string recievedText = Encoding.ASCII.GetString(buffer, 0, recievedBytes);
                 this.totalBuffer += recievedText;
-            } 
+            }
             catch (IOException)
             {
                 Server.Disconnect(this);
@@ -59,6 +62,14 @@ namespace Take_Away_Server
             this.networkStream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
 
+
+
+        /* The clienthandler receives the data from the onRead() method and switches it actions based on the first data out of the packetData.
+           Three possible actions:
+            1. reqeustRestaurant - the client has requested the restaurant list and these will be sent directly from the restaurant list. (The clienthandler created this list at the constructor with the databasemanager.)
+            2. requestProducts - the client has requested a list of products from a restaurant. The server will then send the list of products after getting them from the server.
+            3. sendOrder - the client has sent its order and will create a receipt which will then be sent to the user.        
+        */
         private void handleData(string[] packetData)
         {
             Console.WriteLine("Packet recieved " + packetData[0]);
@@ -108,6 +119,7 @@ namespace Take_Away_Server
             return true;
         }
 
+        //Creates a receipt for the user which will be sent after the user commits it's order.
         private void GenerateReceipt(string restaurant, double price)
         {
             Receipt receipt = new Receipt();

@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Take_Away_Client.Utils;
 using Take_Away_Data;
@@ -37,8 +38,6 @@ namespace Take_Away_Client.ViewModel
         private string totalBuffer;
         private bool connected = false;
 
-        private string username = "JKB";
-        private string password = "1234";
         private int mProductAmount = 1;
         private double mProductPrice = 0.00d;
         private string mProductPriceString = "0,00";
@@ -53,24 +52,21 @@ namespace Take_Away_Client.ViewModel
         {
             mAllProducts = new ConcurrentObservableCollection<Product>();
             mAllRestaurants = new ConcurrentObservableCollection<Restaurant>();
-
             user = new User();
-
             client = new TcpClient();
-            client.BeginConnect("localhost", 12345, new AsyncCallback(OnConnect), null);
-            while (!connected) { }
-            Write("requestRestaurant");
-
             mSelectedProducts = new ObservableCollection<Product>();
+
+            client.BeginConnect("localhost", 12345, new AsyncCallback(OnConnect), null);
+            while (!connected) { } 
+            Write("requestRestaurant"); //request a list of restaurants to load in combobox
         }
 
-        public void OnConnect(IAsyncResult ar)
+        public void OnConnect(IAsyncResult ar) 
         {
             client.EndConnect(ar);
             networkStream = client.GetStream();
             networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
             connected = true;
-            Write($"login");
         }
 
         public void OnRead(IAsyncResult ar)
@@ -93,7 +89,7 @@ namespace Take_Away_Client.ViewModel
         {
             switch (packetData[0])
             {
-                case "requestProducts":
+                case "requestProducts": //list of products received
                     dynamic productJson = packetData[1];
                     List<Product> products = JsonConvert.DeserializeObject<List<Product>>(productJson);
 
@@ -103,25 +99,27 @@ namespace Take_Away_Client.ViewModel
                     }));
                     break;
 
-                case "requestRestaurant":
+                case "requestRestaurant": //list of restaurants received
                     dynamic restaurantJson = packetData[1];
                     List<Restaurant> restaurants = JsonConvert.DeserializeObject<List<Restaurant>>(restaurantJson);
 
+                    //because of multi-threading, we have to add the restaurant parallel
                     Task.Run(() => Parallel.ForEach(restaurants, restaurant =>
                     {
                         mAllRestaurants.Add(new Restaurant { Name = restaurant.Name, Address = restaurant.Address });
                     }));
                     break;
-                case "getReceipt":
+
+                case "getReceipt": //receipt received
                     string receiptJson = packetData[1];
                     string path = $@"{Environment.CurrentDirectory}\receipt-{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}.txt";
-                    File.WriteAllText(path, receiptJson);
+                    File.WriteAllText(path, receiptJson); //write the received receipt to a textfile
                     var p = new Process();
                     p.StartInfo = new ProcessStartInfo(path)
                     {
                         UseShellExecute = true
                     };
-                    p.Start();
+                    p.Start(); //open the receipt textfile
                     break;
             }
         }
@@ -133,7 +131,7 @@ namespace Take_Away_Client.ViewModel
             networkStream.Flush();
         }
 
-        public string FirstName
+        public string FirstName //First name of the customer, binded with its textbox in the GUI
         {
             get
             {
@@ -147,7 +145,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public string LastName
+        public string LastName //surname of the customer, binded with its textbox in the GUI
         {
             get
             {
@@ -161,7 +159,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public string PostalCode
+        public string PostalCode //Postal Code of the customer, binded with its textbox in the GUI
         {
             get
             {
@@ -175,7 +173,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public string HouseNumber
+        public string HouseNumber //Housenumber of the customer, binded with its textbox in the GUI
         {
             get
             {
@@ -189,7 +187,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
         
-        public string productPriceString
+        public string productPriceString //Price of all selected products in string type, binded with its label in the GUI
         {
             get
             {
@@ -202,7 +200,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public double productPrice
+        public double productPrice //Price of all selected products in double type
         {
             get
             {
@@ -215,7 +213,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public int productAmount
+        public int productAmount //The amount of products the customer want to add, binded with its textbox in the GUI
         {
             get
             {
@@ -228,7 +226,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public ConcurrentObservableCollection<Product> Products
+        public ConcurrentObservableCollection<Product> Products //List of all products from a restaurant received from the server (database), binded with its listview (left) in the GUI
         {
             get 
             { 
@@ -241,7 +239,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public ConcurrentObservableCollection<Restaurant> Restaurants
+        public ConcurrentObservableCollection<Restaurant> Restaurants //List of all restaurants received from de server (database), binded with the combobox in the GUI
         {
             get
             {
@@ -254,7 +252,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public ObservableCollection<Product> SelectedProducts
+        public ObservableCollection<Product> SelectedProducts //List of all products the customer want to order binded with its listview (right) in the GUI
         {
             get
             {
@@ -267,7 +265,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public Restaurant SelectedRestaurant
+        public Restaurant SelectedRestaurant //The restaurant selected by the customer, binded with te combobox in the GUI
         {
             get
             {
@@ -282,16 +280,16 @@ namespace Take_Away_Client.ViewModel
                         mChosenRestaurant = new Restaurant();
                     }
                     mChosenRestaurant = value;
-                    mAllProducts.Clear();
-                    mSelectedProducts.Clear();
-                    UpdatePrice();
-                    Write($"requestProducts\r\n{mChosenRestaurant.Name}");
+                    mAllProducts.Clear(); //if selected restaurant is changed, clear the left listview
+                    mSelectedProducts.Clear(); //if selected restaurant is changed, clear the right listview
+                    UpdatePrice(); //set the price to 0
+                    Write($"requestProducts\r\n{mChosenRestaurant.Name}"); //if selected restaurant is changed, ask the products of that restaurant again
                     NotifyPropertyChanged();
                 }
             }
         }
 
-        public Product AllSelectedProduct
+        public Product AllSelectedProduct //Selected product in the listview of all products (left listview)
         {
             get 
             { 
@@ -311,7 +309,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public Product ChosenSelectedProduct
+        public Product ChosenSelectedProduct //Selected product in the listview of the products to order (right listview)
         {
             get
             {
@@ -346,15 +344,15 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        private void AddProduct()
+        private void AddProduct() //add button clicked
         {
             //if product exists, add just the amount
             for (int i = 0; i < productAmount; i++)
             {
-                SelectedProducts.Add(AllSelectedProduct);
+                SelectedProducts.Add(AllSelectedProduct); //add the selected products as much as the customer has specified
             }
-            productAmount = 1;
-            UpdatePrice();
+            productAmount = 1; //set the text in the textbox of productamount to 1
+            UpdatePrice(); //update the price label
         }
 
         private ICommand mDeleteCommand;
@@ -372,10 +370,10 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        private void DeleteProduct()
+        private void DeleteProduct() //delete button clicked
         {
-            SelectedProducts.Remove(ChosenSelectedProduct);
-            UpdatePrice();
+            SelectedProducts.Remove(ChosenSelectedProduct); //remove the selected product in the right listview
+            UpdatePrice(); //update the price label
         }
 
         private ICommand mSendCommand;
@@ -393,15 +391,15 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        private void SendProducts()
+        private void SendProducts() //send button clicked
         {
-            if (!(user.FirstName == null || user.LastName == null || user.PostalCode == null || user.HouseNumber == null))
+            if (!(user.FirstName == null || user.LastName == null || user.PostalCode == null || user.HouseNumber == null)) //can't send the order if information is not filled in by the customer
             {
                 string list = JsonConvert.SerializeObject(SelectedProducts);
                 string userJson = JsonConvert.SerializeObject(user);
-                Write($"sendOrder\r\n{list}\r\n{userJson}\r\n{SelectedRestaurant.Name}\r\n{productPrice}");
-                SelectedProducts.Clear();
-                UpdatePrice();
+                Write($"sendOrder\r\n{list}\r\n{userJson}\r\n{SelectedRestaurant.Name}\r\n{productPrice}"); //write this commando to the server
+                SelectedProducts.Clear(); //clear the right listview
+                UpdatePrice(); //set the price to 0
             }            
         }
 
@@ -428,16 +426,16 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        private void ImportData(string filename)
+        private void ImportData(string filename) //import button clicked
         {
             string input = File.ReadAllText(filename);
-            string separator = "-";
+            string separator = "-"; //separator between the restaurant information and the products
             string[] content = input.Split(separator.ToCharArray());
 
-            SelectedRestaurant = JsonConvert.DeserializeObject < Restaurant > (content[0]);
-            SelectedProducts = JsonConvert.DeserializeObject<ObservableCollection<Product>>(content[1]);
+            SelectedRestaurant = JsonConvert.DeserializeObject < Restaurant > (content[0]); //restaurant from the file is the selected restaurant
+            SelectedProducts = JsonConvert.DeserializeObject<ObservableCollection<Product>>(content[1]); //products from the file are filled in the right listview
 
-            UpdatePrice();
+            UpdatePrice(); //update the price
         }
 
         private ICommand mExportCommand;
@@ -462,23 +460,23 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        private void ExportData(string filename)
+        private void ExportData(string filename) //export button clicked
         {
             string restaurant = JsonConvert.SerializeObject(SelectedRestaurant);
             string products = JsonConvert.SerializeObject(SelectedProducts);
             string data = $"{restaurant}-{products}";
-            File.WriteAllText(filename, data);
-            SelectedProducts.Clear();
+            File.WriteAllText(filename, data); //write the selected restaurant and selected products to a file to store
+            SelectedProducts.Clear(); //clear the right listview
         }
 
-        private void UpdatePrice()
+        private void UpdatePrice() // calculate and show total price
         {
             productPrice = 0;
             foreach (Product product in SelectedProducts)
             {
-                productPrice += product.Price;
+                productPrice += product.Price; 
             }
-            productPriceString = $"{productPrice:##0.00}";
+            productPriceString = $"{productPrice:##0.00}"; //two decimal price displayed in label 
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+
+
 namespace Take_Away_Data
 {
     class Receipt
@@ -13,20 +15,24 @@ namespace Take_Away_Data
         public double totalPrice { get; set; }
         public List<Product> boughtProducts { get; set; }
 
+
+
         public override string ToString()
         {
             string productdata = countedProducts();
 
-            return $"Thank you for your order! The ordered food from {restaurantName} will arrive shortly\n" + 
-                   $"\nName: {buyername}" + 
-                   $"\nPostal Code: {buyerPostalCode}" + 
+            return $"Thank you for your order! The ordered food from {restaurantName} will arrive shortly\n" +
+                   $"\nName: {buyername}" +
+                   $"\nPostal Code: {buyerPostalCode}" +
                    $"\nHouse number: {buyerHouseNumber}" +
-                   $"\n====================================" + 
+                   $"\n====================================" +
                    $"{productdata}" +
                    $"\n====================================" +
                    $"\nThe total price of your order is : {totalPrice:##0.00}";
         }
 
+        // This method loops through the boughtproducts list to see how many items of a product are ordered by the customer.
+        // It then puts these amounts under the same product name so there will not be any duplicates on the receipt.
         private string countedProducts()
         {
             string productData = "";
@@ -45,7 +51,6 @@ namespace Take_Away_Data
                 productData += $"\n{amountInList} {product.Name} {product.Price * amountInList}";
                 boughtProducts.Remove(product);
             }
-
             return productData;
         }
     }

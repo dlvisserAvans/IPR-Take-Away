@@ -25,6 +25,8 @@ namespace Take_Away_Server
             Console.ReadLine();
         }
 
+        //This method starts a new thread for the established connection made with the client.
+        //After creating a new thread the listener starts listening on that thread.
         private static void OnConnect(IAsyncResult asyncResult)
         {
             var tcpClient = listener.EndAcceptTcpClient(asyncResult);
@@ -33,15 +35,11 @@ namespace Take_Away_Server
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
 
+        //This method disconnects and removes the client from the list, this method can be called whenever a client fails to connect.
         internal static void Disconnect(ClientHandler clientHandler)
         {
             clients.Remove(clientHandler);
             Console.WriteLine("Client disconnected");
-        }
-
-        public static void fillProductList()
-        {
-            
         }
     }
 }
