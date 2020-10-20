@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Receipt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Restaurant.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProductType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Product.cs" />
