@@ -94,28 +94,9 @@ namespace Take_Away_Server
                     dynamic jsonUser = packetData[2];
                     user = JsonConvert.DeserializeObject<User>(jsonUser);
 
-                    Console.WriteLine($"{user.FullName} has chosen the following products (random): ");
-                    foreach(Product p in chosenProductList)
-                    {
-                        Console.WriteLine(p);
-                    }
-
-                    Console.WriteLine($"{user.FullName} has chosen the following products (sorted): ");
-                    while (chosenProductList.Count > 0)
-                    {
-                        int amountInList = 1;
-                        Product product = chosenProductList[chosenProductList.Count - 1];
-                        for (int j = (chosenProductList.Count - 1); j > 0; j--)
-                        {
-                            if(product.Name.Equals(chosenProductList[j-1].Name) && product.Price.Equals(chosenProductList[j-1].Price))
-                            {
-                                amountInList++;
-                                chosenProductList.Remove(chosenProductList[j-1]);
-                            }
-                        }
-                        Console.WriteLine($"{product} amount: {amountInList}");
-                        chosenProductList.Remove(product);
-                    }
+                    string restaurant = packetData[3];
+                    double price = double.Parse(packetData[4]);
+                    GenerateReceipt(restaurant, price);
                     break;
             }
         }
@@ -134,6 +115,19 @@ namespace Take_Away_Server
                 return false;
             }
             return true;
+        }
+
+        private void GenerateReceipt(string restaurant, double price)
+        {
+            Receipt receipt = new Receipt();
+            Debug.WriteLine("Restaurant: " + restaurant);
+            receipt.restaurantName = restaurant;
+            receipt.buyername = user.FirstName + " " + user.LastName;
+            receipt.buyerPostalCode = user.PostalCode;
+            receipt.buyerHouseNumber = user.HouseNumber;
+            receipt.boughtProducts = chosenProductList;
+            receipt.totalPrice = price;
+            Write($"getReceipt\r\n{receipt.ToString()}");
         }
     }
 }
