@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "FlWcepbUt/y6xJ8jnNQE9uZfeE7DOLhcaMzvpRjn2MSbY2Vm3MJs2gglZKWwczcx9hYbzjclfNCS39mFz0yp/g==",
+  "dgSpecHash": "AwdslVCByZeZFp2+m4NVLmXItbt5APrruKMPIqMjmeSMlrkffU6GDw1Sp5IXESBZkpiEzzh1+qCzGNpC1fc93A==",
   "success": true,
-  "projectFilePath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj",
+  "projectFilePath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\jkbro\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
-    "C:\\Users\\jkbro\\.nuget\\packages\\swordfish.net.collectionsv3\\3.3.1\\swordfish.net.collectionsv3.3.3.1.nupkg.sha512",
-    "C:\\Users\\jkbro\\.nuget\\packages\\system.collections.immutable\\1.7.1\\system.collections.immutable.1.7.1.nupkg.sha512"
+    "C:\\Users\\Dave-\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\Dave-\\.nuget\\packages\\swordfish.net.collectionsv3\\3.3.1\\swordfish.net.collectionsv3.3.3.1.nupkg.sha512",
+    "C:\\Users\\Dave-\\.nuget\\packages\\system.collections.immutable\\1.7.1\\system.collections.immutable.1.7.1.nupkg.sha512"
   ],
   "logs": []
 }

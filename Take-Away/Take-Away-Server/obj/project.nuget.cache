@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "tFXmXWgUY+blEPbE0LR/3um0LX+5YjZvsaoRcjVJx7ziptFiEeSjh1Lc6YBkmQ7qp17Gd/eNznbTNbYi6TKQhw==",
+  "dgSpecHash": "8Elp+jDvzoyuJmnentdav91UbOVlHAPVU5kjoOVFfflbXURujf+NvRCASZLlQKCIul67zkFoi+h0vdxtsHLhnw==",
   "success": true,
-  "projectFilePath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
+  "projectFilePath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\jkbro\\.nuget\\packages\\mysqlconnector\\1.0.1\\mysqlconnector.1.0.1.nupkg.sha512",
-    "C:\\Users\\jkbro\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
-    "C:\\Users\\jkbro\\.nuget\\packages\\swordfish.net.collectionsv3\\3.3.1\\swordfish.net.collectionsv3.3.3.1.nupkg.sha512",
-    "C:\\Users\\jkbro\\.nuget\\packages\\system.collections.immutable\\1.7.1\\system.collections.immutable.1.7.1.nupkg.sha512"
+    "C:\\Users\\Dave-\\.nuget\\packages\\mysqlconnector\\1.0.1\\mysqlconnector.1.0.1.nupkg.sha512",
+    "C:\\Users\\Dave-\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\Dave-\\.nuget\\packages\\swordfish.net.collectionsv3\\3.3.1\\swordfish.net.collectionsv3.3.3.1.nupkg.sha512",
+    "C:\\Users\\Dave-\\.nuget\\packages\\system.collections.immutable\\1.7.1\\system.collections.immutable.1.7.1.nupkg.sha512"
   ],
   "logs": []
 }
