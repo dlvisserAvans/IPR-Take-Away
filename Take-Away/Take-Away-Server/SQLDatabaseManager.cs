@@ -11,11 +11,10 @@ namespace Take_Away_SQLConnection
     {
         private string databaseName;
         private string connstring;
-
         private string DBDave = "!\\P8QYii@*Ss*3E@4jMo5aXbXEJP";
         private string DBJK = "Jkbiseenjongen";
         private MySqlConnection context { get; set; }
-       
+
         public SQLDatabaseManager(string databaseName)
         {
             this.databaseName = databaseName;
@@ -24,12 +23,15 @@ namespace Take_Away_SQLConnection
             context.Open();
         }
 
+        //The server creates a sql command and sends it to the database. When the data has been received succesfully the productlist will be filled.
         public List<Product> getProductsFromRestaurantIntoList(string restaurantName)
         {
             List<Product> productList = new List<Product>();
             var cmd = new MySqlCommand("SELECT DISTINCT products.productname, products.productprice, products.producttype " +
                                        "FROM products, restaurants, restaurants_products WHERE restaurants.restaurantname = " +
                                        $"(\"{restaurantName}\") AND restaurants.restaurantname = restaurants_products.restaurantname AND products.productname = restaurants_products.productname", context);
+
+
 
             using (var reader = cmd.ExecuteReader())
             {
@@ -39,13 +41,13 @@ namespace Take_Away_SQLConnection
                     double productPrice = reader.GetDouble(1);
                     string productTypeString = reader.GetString(2);
                     ProductType productType = Enum.Parse<ProductType>(productTypeString);
-                    productList.Add(new Product { Name = productName, Price = productPrice, Type = productType});
+                    productList.Add(new Product { Name = productName, Price = productPrice, Type = productType });
                 }
             }
-                   
             return productList;
         }
 
+        //The server creates a sql command and sends it to the database. When the data has been received succesfully the restaurantlist will be filled.
         public List<Restaurant> getAllRestaurantsIntoList()
         {
             List<Restaurant> restaurantList = new List<Restaurant> { };
