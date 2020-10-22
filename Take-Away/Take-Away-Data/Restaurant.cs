@@ -7,12 +7,12 @@ namespace Take_Away_Data
 {
     public class Restaurant : ObservableObject
     {
-        public string Name { get; set; }
-        public string Address { get; set; }
+        public string name { get; set; }
+        public string address { get; set; }
 
         public override string ToString()
         {
-            return "RestaurantName: " + Name + "\tAddress: " + Address;
+            return "RestaurantName: " + name + "\tAddress: " + address;
         }
     }
 }

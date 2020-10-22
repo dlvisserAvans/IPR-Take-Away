@@ -6,21 +6,21 @@ namespace Take_Away_Data
 {
     public class User
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PostalCode { get; set; }
-        public string HouseNumber { get; set; }
-        public string FullName
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string postalCode { get; set; }
+        public string houseNumber { get; set; }
+        public string fullName
         {
             get
             {
-                return String.Format($"{FirstName} {LastName}");
+                return String.Format($"{firstName} {lastName}");
             }
         }
 
         public override string ToString()
         {
-            return "First name: " + FirstName + "\tLast name: " + LastName + "\tPostal Code: " + PostalCode + "\tHousenumber: " + HouseNumber;
+            return "First name: " + firstName + "\tLast name: " + lastName + "\tPostal Code: " + postalCode + "\tHousenumber: " + houseNumber;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Take_Away_Data
 
         public override string ToString()
         {
-            string productdata = countedProducts();
+            string productdata = CountedProducts();
 
             return $"Thank you for your order! The ordered food from {restaurantName} will arrive shortly\n" +
                    $"\nName: {buyername}" +
@@ -33,7 +33,7 @@ namespace Take_Away_Data
 
         // This method loops through the boughtproducts list to see how many items of a product are ordered by the customer.
         // It then puts these amounts under the same product name so there will not be any duplicates on the receipt.
-        private string countedProducts()
+        private string CountedProducts()
         {
             string productData = "";
             while (boughtProducts.Count > 0)
@@ -42,13 +42,13 @@ namespace Take_Away_Data
                 Product product = boughtProducts[boughtProducts.Count - 1];
                 for (int j = (boughtProducts.Count - 1); j > 0; j--)
                 {
-                    if (product.Name.Equals(boughtProducts[j - 1].Name) && product.Price.Equals(boughtProducts[j - 1].Price))
+                    if (product.name.Equals(boughtProducts[j - 1].name) && product.price.Equals(boughtProducts[j - 1].price))
                     {
                         amountInList++;
                         boughtProducts.Remove(boughtProducts[j - 1]);
                     }
                 }
-                productData += $"\n{amountInList} {product.Name} {product.Price * amountInList}";
+                productData += $"\n{amountInList} {product.name} {product.price * amountInList}";
                 boughtProducts.Remove(product);
             }
             return productData;

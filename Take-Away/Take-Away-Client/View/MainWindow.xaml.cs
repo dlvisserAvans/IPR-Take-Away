@@ -23,14 +23,6 @@ namespace Take_Away_Client.View
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static TcpClient client;
-        private static NetworkStream networkStream;
-        private static byte[] buffer = new byte[1024];
-        private static string totalBuffer;
-
-        private static string username = "JKB";
-        private static string password = "1234";
-
         public MainWindow()
         {
             InitializeComponent();

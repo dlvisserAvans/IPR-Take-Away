@@ -44,7 +44,7 @@ namespace Take_Away_SQLTEST
             double totalPrice = 0.0;
             foreach (Product p in boughtProducts)
             {
-                totalPrice += p.Price;
+                totalPrice += p.price;
             }
             return totalPrice;
         }

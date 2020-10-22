@@ -13,7 +13,6 @@ namespace Take_Away_Server
     {
         private static TcpListener listener;
         private static List<ClientHandler> clients = new List<ClientHandler>();
-        private static List<Restaurant> restaurantList = new List<Restaurant>();
         private static SQLDatabaseManager databaseManager = new SQLDatabaseManager("takeaway");
 
         static void Main(string[] args)
