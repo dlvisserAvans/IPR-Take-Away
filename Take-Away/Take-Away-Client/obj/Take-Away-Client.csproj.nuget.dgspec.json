@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj": {}
+    "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj": {}
   },
   "projects": {
-    "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj": {
+    "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj",
+        "projectUniqueName": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj",
         "projectName": "Take-Away-Client",
-        "projectPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj",
-        "packagesPath": "C:\\Users\\jkbro\\.nuget\\packages\\",
-        "outputPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\obj\\",
+        "projectPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj",
+        "packagesPath": "C:\\Users\\Dave-\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\jkbro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Dave-\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,6 +38,14 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"

@@ -18,7 +18,7 @@ namespace Take_Away_SQLConnection
         public SQLDatabaseManager(string databaseName)
         {
             this.databaseName = databaseName;
-            connstring = string.Format("Server=localhost; database={0}; UID=root;" + $"password={dbJanKees}", this.databaseName);
+            connstring = string.Format("Server=localhost; database={0}; UID=root;" + $"password={dbDave}", this.databaseName);
             context = new MySqlConnection(connstring);
             context.Open();
         }
