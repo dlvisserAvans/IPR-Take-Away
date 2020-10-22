@@ -346,13 +346,20 @@ namespace Take_Away_Client.ViewModel
 
         private void AddProduct() //add button clicked
         {
-            //if product exists, add just the amount
-            for (int i = 0; i < productAmount; i++)
+            if (selectedProducts.Count + productAmount <= 100)
             {
-                selectedProducts.Add(allSelectedProduct); //add the selected products as much as the customer has specified
+                for (int i = 0; i < productAmount; i++)
+                {
+                    selectedProducts.Add(allSelectedProduct); //add the selected products as much as the customer has specified
+                }
+                productAmount = 1; //set the text in the textbox of productamount to 1
+                UpdatePrice(); //update the price label
             }
-            productAmount = 1; //set the text in the textbox of productamount to 1
-            UpdatePrice(); //update the price label
+            else
+            {
+                MessageBox.Show("You reached the maximum amount of products!");
+            }
+            
         }
 
         private ICommand mDeleteCommand;

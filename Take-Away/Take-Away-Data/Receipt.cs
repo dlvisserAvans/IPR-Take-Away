@@ -48,7 +48,7 @@ namespace Take_Away_Data
                         boughtProducts.Remove(boughtProducts[j - 1]);
                     }
                 }
-                productData += $"\n{amountInList} {product.name} {product.price * amountInList}";
+                productData += $"\n{amountInList} {product.name} {(product.price * amountInList):##0.00}";
                 boughtProducts.Remove(product);
             }
             return productData;
