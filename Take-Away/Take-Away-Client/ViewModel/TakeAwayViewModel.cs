@@ -21,7 +21,7 @@ using Take_Away_Data;
 
 namespace Take_Away_Client.ViewModel
 {
-    class TakeAwayViewModel : ObservableObject
+    public class TakeAwayViewModel : ObservableObject
     {
         private ConcurrentObservableCollection<Product> mAllProducts;
         private ConcurrentObservableCollection<Restaurant> mAllRestaurants;
@@ -426,16 +426,25 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        private void ImportData(string filename) //import button clicked
+        private bool ImportData(string filename) //import button clicked
         {
-            string input = File.ReadAllText(filename);
-            string separator = "-"; //separator between the restaurant information and the products
-            string[] content = input.Split(separator.ToCharArray());
+            try
+            {
+                string input = File.ReadAllText(filename);
+                string separator = "-"; //separator between the restaurant information and the products
+                string[] content = input.Split(separator.ToCharArray());
 
-            selectedRestaurant = JsonConvert.DeserializeObject < Restaurant > (content[0]); //restaurant from the file is the selected restaurant
-            selectedProducts = JsonConvert.DeserializeObject<ObservableCollection<Product>>(content[1]); //products from the file are filled in the right listview
+                selectedRestaurant = JsonConvert.DeserializeObject<Restaurant>(content[0]); //restaurant from the file is the selected restaurant
+                selectedProducts = JsonConvert.DeserializeObject<ObservableCollection<Product>>(content[1]); //products from the file are filled in the right listview
 
-            UpdatePrice(); //update the price
+                UpdatePrice(); //update the price
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         private ICommand mExportCommand;

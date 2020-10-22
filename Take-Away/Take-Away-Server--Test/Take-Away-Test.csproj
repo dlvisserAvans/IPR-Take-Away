@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Take_Away_Server__Test</RootNamespace>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Take-Away-Client\Take-Away-Client.csproj" />
+    <ProjectReference Include="..\Take-Away-Server\Take-Away-Server.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\Take-Away-Data\Take-Away-Data.projitems" Label="Shared" />
+
+</Project>

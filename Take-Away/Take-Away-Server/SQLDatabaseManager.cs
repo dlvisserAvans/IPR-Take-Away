@@ -7,7 +7,7 @@ using System.Data;
 
 namespace Take_Away_SQLConnection
 {
-    class SQLDatabaseManager
+    public class SQLDatabaseManager
     {
         private string databaseName;
         private string connstring;
@@ -18,7 +18,7 @@ namespace Take_Away_SQLConnection
         public SQLDatabaseManager(string databaseName)
         {
             this.databaseName = databaseName;
-            connstring = string.Format("Server=localhost; database={0}; UID=root;" + $"password={dbDave}", this.databaseName);
+            connstring = string.Format("Server=localhost; database={0}; UID=root;" + $"password={dbJanKees}", this.databaseName);
             context = new MySqlConnection(connstring);
             context.Open();
         }
@@ -63,6 +63,18 @@ namespace Take_Away_SQLConnection
                 }
             }
             return restaurantList;
+        }
+
+        public int GetRestaurantAmount()
+        {
+            List<Restaurant> restaurants = GetAllRestaurantsIntoList();
+            return restaurants.Count;
+        }
+
+        public int GetProductsFromRestaurant(string restaurantName)
+        {
+            List<Product> products = GetProductsFromRestaurantIntoList(restaurantName);
+            return products.Count;
         }
     }
 }
