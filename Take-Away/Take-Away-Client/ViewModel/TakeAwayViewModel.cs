@@ -21,7 +21,7 @@ using Take_Away_Data;
 
 namespace Take_Away_Client.ViewModel
 {
-    class TakeAwayViewModel : ObservableObject
+    public class TakeAwayViewModel : ObservableObject
     {
         private ConcurrentObservableCollection<Product> mAllProducts;
         private ConcurrentObservableCollection<Restaurant> mAllRestaurants;
@@ -80,12 +80,12 @@ namespace Take_Away_Client.ViewModel
                 string packet = totalBuffer.Substring(0, totalBuffer.IndexOf("\r\n\r\n"));
                 totalBuffer = totalBuffer.Substring(totalBuffer.IndexOf("\r\n\r\n") + 4);
                 string[] packetData = Regex.Split(packet, "\r\n");
-                handleData(packetData);
+                HandleData(packetData);
             }
             networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
 
-        public void handleData(string[] packetData)
+        public void HandleData(string[] packetData)
         {
             switch (packetData[0])
             {
@@ -95,7 +95,7 @@ namespace Take_Away_Client.ViewModel
 
                     Task.Run(() => Parallel.ForEach(products, product =>
                     {
-                        mAllProducts.Add(new Product { Name = product.Name, Price = product.Price, Type = product.Type});
+                        mAllProducts.Add(new Product { name = product.name, price = product.price, type = product.type});
                     }));
                     break;
 
@@ -106,7 +106,7 @@ namespace Take_Away_Client.ViewModel
                     //because of multi-threading, we have to add the restaurant parallel
                     Task.Run(() => Parallel.ForEach(restaurants, restaurant =>
                     {
-                        mAllRestaurants.Add(new Restaurant { Name = restaurant.Name, Address = restaurant.Address });
+                        mAllRestaurants.Add(new Restaurant { name = restaurant.name, address = restaurant.address });
                     }));
                     break;
 
@@ -131,7 +131,7 @@ namespace Take_Away_Client.ViewModel
             networkStream.Flush();
         }
 
-        public string FirstName //First name of the customer, binded with its textbox in the GUI
+        public string firstName //First name of the customer, binded with its textbox in the GUI
         {
             get
             {
@@ -141,11 +141,11 @@ namespace Take_Away_Client.ViewModel
             {
                 mFirstName = value;
                 NotifyPropertyChanged();
-                user.FirstName = mFirstName;
+                user.firstName = mFirstName;
             }
         }
 
-        public string LastName //surname of the customer, binded with its textbox in the GUI
+        public string lastName //surname of the customer, binded with its textbox in the GUI
         {
             get
             {
@@ -155,11 +155,11 @@ namespace Take_Away_Client.ViewModel
             {
                 mLastName = value;
                 NotifyPropertyChanged();
-                user.LastName = mLastName;
+                user.lastName = mLastName;
             }
         }
 
-        public string PostalCode //Postal Code of the customer, binded with its textbox in the GUI
+        public string postalCode //Postal Code of the customer, binded with its textbox in the GUI
         {
             get
             {
@@ -169,11 +169,11 @@ namespace Take_Away_Client.ViewModel
             {
                 mPostalCode = value;
                 NotifyPropertyChanged();
-                user.PostalCode = mPostalCode;
+                user.postalCode = mPostalCode;
             }
         }
 
-        public string HouseNumber //Housenumber of the customer, binded with its textbox in the GUI
+        public string houseNumber //Housenumber of the customer, binded with its textbox in the GUI
         {
             get
             {
@@ -183,7 +183,7 @@ namespace Take_Away_Client.ViewModel
             {
                 mHouseNumber = value;
                 NotifyPropertyChanged();
-                user.HouseNumber = mHouseNumber;
+                user.houseNumber = mHouseNumber;
             }
         }
         
@@ -226,7 +226,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public ConcurrentObservableCollection<Product> Products //List of all products from a restaurant received from the server (database), binded with its listview (left) in the GUI
+        public ConcurrentObservableCollection<Product> products //List of all products from a restaurant received from the server (database), binded with its listview (left) in the GUI
         {
             get 
             { 
@@ -239,7 +239,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public ConcurrentObservableCollection<Restaurant> Restaurants //List of all restaurants received from de server (database), binded with the combobox in the GUI
+        public ConcurrentObservableCollection<Restaurant> restaurants //List of all restaurants received from de server (database), binded with the combobox in the GUI
         {
             get
             {
@@ -252,7 +252,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public ObservableCollection<Product> SelectedProducts //List of all products the customer want to order binded with its listview (right) in the GUI
+        public ObservableCollection<Product> selectedProducts //List of all products the customer want to order binded with its listview (right) in the GUI
         {
             get
             {
@@ -265,7 +265,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public Restaurant SelectedRestaurant //The restaurant selected by the customer, binded with te combobox in the GUI
+        public Restaurant selectedRestaurant //The restaurant selected by the customer, binded with te combobox in the GUI
         {
             get
             {
@@ -283,13 +283,13 @@ namespace Take_Away_Client.ViewModel
                     mAllProducts.Clear(); //if selected restaurant is changed, clear the left listview
                     mSelectedProducts.Clear(); //if selected restaurant is changed, clear the right listview
                     UpdatePrice(); //set the price to 0
-                    Write($"requestProducts\r\n{mChosenRestaurant.Name}"); //if selected restaurant is changed, ask the products of that restaurant again
+                    Write($"requestProducts\r\n{mChosenRestaurant.name}"); //if selected restaurant is changed, ask the products of that restaurant again
                     NotifyPropertyChanged();
                 }
             }
         }
 
-        public Product AllSelectedProduct //Selected product in the listview of all products (left listview)
+        public Product allSelectedProduct //Selected product in the listview of all products (left listview)
         {
             get 
             { 
@@ -309,7 +309,7 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        public Product ChosenSelectedProduct //Selected product in the listview of the products to order (right listview)
+        public Product chosenSelectedProduct //Selected product in the listview of the products to order (right listview)
         {
             get
             {
@@ -330,7 +330,7 @@ namespace Take_Away_Client.ViewModel
         }
 
         private ICommand mAddCommand;
-        public ICommand AddCommand
+        public ICommand addCommand
         {
             get
             {
@@ -346,17 +346,24 @@ namespace Take_Away_Client.ViewModel
 
         private void AddProduct() //add button clicked
         {
-            //if product exists, add just the amount
-            for (int i = 0; i < productAmount; i++)
+            if (selectedProducts.Count + productAmount <= 100)
             {
-                SelectedProducts.Add(AllSelectedProduct); //add the selected products as much as the customer has specified
+                for (int i = 0; i < productAmount; i++)
+                {
+                    selectedProducts.Add(allSelectedProduct); //add the selected products as much as the customer has specified
+                }
+                productAmount = 1; //set the text in the textbox of productamount to 1
+                UpdatePrice(); //update the price label
             }
-            productAmount = 1; //set the text in the textbox of productamount to 1
-            UpdatePrice(); //update the price label
+            else
+            {
+                MessageBox.Show("You reached the maximum amount of products!");
+            }
+            
         }
 
         private ICommand mDeleteCommand;
-        public ICommand DeleteCommand
+        public ICommand deleteCommand
         {
             get
             {
@@ -364,7 +371,7 @@ namespace Take_Away_Client.ViewModel
                 {
                     mDeleteCommand = new RelayCommand(
                         param => DeleteProduct(),
-                        param => (ChosenSelectedProduct != null));
+                        param => (chosenSelectedProduct != null));
                 }
                 return mDeleteCommand;
             }
@@ -372,12 +379,12 @@ namespace Take_Away_Client.ViewModel
 
         private void DeleteProduct() //delete button clicked
         {
-            SelectedProducts.Remove(ChosenSelectedProduct); //remove the selected product in the right listview
+            selectedProducts.Remove(chosenSelectedProduct); //remove the selected product in the right listview
             UpdatePrice(); //update the price label
         }
 
         private ICommand mSendCommand;
-        public ICommand SendCommand
+        public ICommand sendCommand
         {
             get
             {
@@ -393,18 +400,18 @@ namespace Take_Away_Client.ViewModel
 
         private void SendProducts() //send button clicked
         {
-            if (!(user.FirstName == null || user.LastName == null || user.PostalCode == null || user.HouseNumber == null)) //can't send the order if information is not filled in by the customer
+            if (!(user.firstName == null || user.lastName == null || user.postalCode == null || user.houseNumber == null)) //can't send the order if information is not filled in by the customer
             {
-                string list = JsonConvert.SerializeObject(SelectedProducts);
+                string list = JsonConvert.SerializeObject(selectedProducts);
                 string userJson = JsonConvert.SerializeObject(user);
-                Write($"sendOrder\r\n{list}\r\n{userJson}\r\n{SelectedRestaurant.Name}\r\n{productPrice}"); //write this commando to the server
-                SelectedProducts.Clear(); //clear the right listview
+                Write($"sendOrder\r\n{list}\r\n{userJson}\r\n{selectedRestaurant.name}\r\n{productPrice}"); //write this commando to the server
+                selectedProducts.Clear(); //clear the right listview
                 UpdatePrice(); //set the price to 0
             }            
         }
 
         private ICommand mImportCommand;
-        public ICommand ImportCommand
+        public ICommand importCommand
         {
             get
             {
@@ -426,20 +433,31 @@ namespace Take_Away_Client.ViewModel
             }
         }
 
-        private void ImportData(string filename) //import button clicked
+        private bool ImportData(string filename) //import button clicked
         {
-            string input = File.ReadAllText(filename);
-            string separator = "-"; //separator between the restaurant information and the products
-            string[] content = input.Split(separator.ToCharArray());
+            try
+            {
+                string input = File.ReadAllText(filename);
+                string separator = "-"; //separator between the restaurant information and the products
+                string[] content = input.Split(separator.ToCharArray());
 
-            SelectedRestaurant = JsonConvert.DeserializeObject < Restaurant > (content[0]); //restaurant from the file is the selected restaurant
-            SelectedProducts = JsonConvert.DeserializeObject<ObservableCollection<Product>>(content[1]); //products from the file are filled in the right listview
+                selectedRestaurant = JsonConvert.DeserializeObject<Restaurant>(content[0]); //restaurant from the file is the selected restaurant
+                selectedProducts = JsonConvert.DeserializeObject<ObservableCollection<Product>>(content[1]); //products from the file are filled in the right listview
 
-            UpdatePrice(); //update the price
+                Console.WriteLine(selectedProducts.Count);
+
+                UpdatePrice(); //update the price
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         private ICommand mExportCommand;
-        public ICommand ExportCommand
+        public ICommand exportCommand
         {
             get
             {
@@ -454,7 +472,7 @@ namespace Take_Away_Client.ViewModel
                                 ExportData(fileNames[0]);
                             }
                         },
-                    param => (SelectedProducts.Count > 0));
+                    param => (selectedProducts.Count > 0));
                 }
                 return mExportCommand;
             }
@@ -462,19 +480,19 @@ namespace Take_Away_Client.ViewModel
 
         private void ExportData(string filename) //export button clicked
         {
-            string restaurant = JsonConvert.SerializeObject(SelectedRestaurant);
-            string products = JsonConvert.SerializeObject(SelectedProducts);
+            string restaurant = JsonConvert.SerializeObject(selectedRestaurant);
+            string products = JsonConvert.SerializeObject(selectedProducts);
             string data = $"{restaurant}-{products}";
             File.WriteAllText(filename, data); //write the selected restaurant and selected products to a file to store
-            SelectedProducts.Clear(); //clear the right listview
+            selectedProducts.Clear(); //clear the right listview
         }
 
         private void UpdatePrice() // calculate and show total price
         {
             productPrice = 0;
-            foreach (Product product in SelectedProducts)
+            foreach (Product product in selectedProducts)
             {
-                productPrice += product.Price; 
+                productPrice += product.price; 
             }
             productPriceString = $"{productPrice:##0.00}"; //two decimal price displayed in label 
         }

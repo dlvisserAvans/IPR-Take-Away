@@ -13,7 +13,6 @@ namespace Take_Away_Server
     {
         private static TcpListener listener;
         private static List<ClientHandler> clients = new List<ClientHandler>();
-        private static List<Restaurant> restaurantList = new List<Restaurant>();
         private static SQLDatabaseManager databaseManager = new SQLDatabaseManager("takeaway");
 
         static void Main(string[] args)
@@ -21,6 +20,7 @@ namespace Take_Away_Server
             Console.WriteLine("Server starting...");
             listener = new TcpListener(IPAddress.Any, 12345);
             listener.Start();
+            Console.WriteLine("Server started.");
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
             Console.ReadLine();
         }
@@ -30,16 +30,16 @@ namespace Take_Away_Server
         private static void OnConnect(IAsyncResult asyncResult)
         {
             var tcpClient = listener.EndAcceptTcpClient(asyncResult);
-            Console.WriteLine("Client connected");
+            Console.WriteLine("Client connected from: " + $"{tcpClient.Client.RemoteEndPoint}");
             clients.Add(new ClientHandler(tcpClient, databaseManager));
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
 
         //This method disconnects and removes the client from the list, this method can be called whenever a client fails to connect.
-        internal static void Disconnect(ClientHandler clientHandler)
+        internal static void Disconnect(ClientHandler clientHandler, string ip)
         {
             clients.Remove(clientHandler);
-            Console.WriteLine("Client disconnected");
+            Console.WriteLine("Client disconnected from: " + $"{ip}");
         }
     }
 }

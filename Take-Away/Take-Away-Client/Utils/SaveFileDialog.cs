@@ -12,7 +12,6 @@ namespace Take_Away_Client.Utils
         public List<string> ExecuteFileDialog(object owner, string extFilter)
         {
             var fd = new Microsoft.Win32.SaveFileDialog();
-            //fd.Multiselect = true;
             if (!string.IsNullOrWhiteSpace(extFilter))
             {
                 fd.Filter = extFilter;

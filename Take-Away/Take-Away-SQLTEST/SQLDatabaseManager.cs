@@ -36,7 +36,7 @@ namespace Take_Away_SQLConnection
                     int productPrice = reader.GetInt16(1);
                     string productTypeString = reader.GetString(2);
                     ProductType productType = Enum.Parse<ProductType>(productTypeString);
-                    productList.Add(new Product { Name = productName, Price = productPrice, Type = productType });
+                    productList.Add(new Product { name = productName, price = productPrice, type = productType });
                 }
             }
                    

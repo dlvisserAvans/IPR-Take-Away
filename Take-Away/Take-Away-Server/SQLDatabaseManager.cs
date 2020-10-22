@@ -7,24 +7,24 @@ using System.Data;
 
 namespace Take_Away_SQLConnection
 {
-    class SQLDatabaseManager
+    public class SQLDatabaseManager
     {
         private string databaseName;
         private string connstring;
-        private string DBDave = "!\\P8QYii@*Ss*3E@4jMo5aXbXEJP";
-        private string DBJK = "Jkbiseenjongen";
+        private string dbDave = "!\\P8QYii@*Ss*3E@4jMo5aXbXEJP";
+        private string dbJanKees = "Jkbiseenjongen";
         private MySqlConnection context { get; set; }
 
         public SQLDatabaseManager(string databaseName)
         {
             this.databaseName = databaseName;
-            connstring = string.Format("Server=localhost; database={0}; UID=root;" + $"password={DBJK}", this.databaseName);
+            connstring = string.Format("Server=localhost; database={0}; UID=root;" + $"password={dbDave}", this.databaseName);
             context = new MySqlConnection(connstring);
             context.Open();
         }
 
         //The server creates a sql command and sends it to the database. When the data has been received succesfully the productlist will be filled.
-        public List<Product> getProductsFromRestaurantIntoList(string restaurantName)
+        public List<Product> GetProductsFromRestaurantIntoList(string restaurantName)
         {
             List<Product> productList = new List<Product>();
             var cmd = new MySqlCommand("SELECT DISTINCT products.productname, products.productprice, products.producttype " +
@@ -41,14 +41,14 @@ namespace Take_Away_SQLConnection
                     double productPrice = reader.GetDouble(1);
                     string productTypeString = reader.GetString(2);
                     ProductType productType = Enum.Parse<ProductType>(productTypeString);
-                    productList.Add(new Product { Name = productName, Price = productPrice, Type = productType });
+                    productList.Add(new Product { name = productName, price = productPrice, type = productType });
                 }
             }
             return productList;
         }
 
         //The server creates a sql command and sends it to the database. When the data has been received succesfully the restaurantlist will be filled.
-        public List<Restaurant> getAllRestaurantsIntoList()
+        public List<Restaurant> GetAllRestaurantsIntoList()
         {
             List<Restaurant> restaurantList = new List<Restaurant> { };
             var cmd = new MySqlCommand("SELECT DISTINCT * FROM restaurants", context);
@@ -59,10 +59,22 @@ namespace Take_Away_SQLConnection
                 {
                     string restaurantName = reader.GetString(0);
                     string restaurantAddress = reader.GetString(1);
-                    restaurantList.Add(new Restaurant { Name = restaurantName, Address = restaurantAddress });
+                    restaurantList.Add(new Restaurant { name = restaurantName, address = restaurantAddress });
                 }
             }
             return restaurantList;
+        }
+
+        public int GetRestaurantAmount()
+        {
+            List<Restaurant> restaurants = GetAllRestaurantsIntoList();
+            return restaurants.Count;
+        }
+
+        public int GetProductsFromRestaurant(string restaurantName)
+        {
+            List<Product> products = GetProductsFromRestaurantIntoList(restaurantName);
+            return products.Count;
         }
     }
 }

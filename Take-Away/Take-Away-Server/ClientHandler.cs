@@ -21,17 +21,15 @@ namespace Take_Away_Server
         private List<Restaurant> restaurantList = new List<Restaurant>();
         private List<Product> chosenProductList;
         private string totalBuffer = "";
-        private string username;
-        private string password;
-        private SQLDatabaseManager SQLDatabaseManager;
+        private SQLDatabaseManager sqlDatabaseManager;
         private User user;
 
         public ClientHandler(TcpClient tcpClient, SQLDatabaseManager databaseManager)
         {
             this.tcpClient = tcpClient;
             this.networkStream = this.tcpClient.GetStream();
-            SQLDatabaseManager = databaseManager;
-            restaurantList = databaseManager.getAllRestaurantsIntoList();
+            sqlDatabaseManager = databaseManager;
+            restaurantList = databaseManager.GetAllRestaurantsIntoList();
             this.networkStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
 
@@ -48,7 +46,7 @@ namespace Take_Away_Server
             }
             catch (IOException)
             {
-                Server.Disconnect(this);
+                Server.Disconnect(this, tcpClient.Client.RemoteEndPoint.ToString());
                 return;
             }
 
@@ -57,7 +55,7 @@ namespace Take_Away_Server
                 string packet = this.totalBuffer.Substring(0, this.totalBuffer.IndexOf("\r\n\r\n"));
                 this.totalBuffer = this.totalBuffer.Substring(this.totalBuffer.IndexOf("\r\n\r\n") + 4);
                 string[] packetData = Regex.Split(packet, "\r\n");
-                handleData(packetData);
+                HandleData(packetData);
             }
             this.networkStream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
@@ -70,9 +68,9 @@ namespace Take_Away_Server
             2. requestProducts - the client has requested a list of products from a restaurant. The server will then send the list of products after getting them from the server.
             3. sendOrder - the client has sent its order and will create a receipt which will then be sent to the user.        
         */
-        private void handleData(string[] packetData)
+        private void HandleData(string[] packetData)
         {
-            Console.WriteLine("Packet recieved " + packetData[0]);
+            Console.WriteLine("Packet recieved " + packetData[0] + " from : " + this.tcpClient.Client.RemoteEndPoint.ToString());
             //The first packet is the header (message type). the other packets are the data
             switch (packetData[0])
             {
@@ -83,7 +81,7 @@ namespace Take_Away_Server
 
                 case "requestProducts":
                     string chosenRestaurant = packetData[1];
-                    productList = SQLDatabaseManager.getProductsFromRestaurantIntoList(chosenRestaurant);
+                    productList = sqlDatabaseManager.GetProductsFromRestaurantIntoList(chosenRestaurant);
 
                     string listProducts = JsonConvert.SerializeObject(productList);
                     Write("requestProducts\r\n" + listProducts);
@@ -98,6 +96,31 @@ namespace Take_Away_Server
 
                     string restaurant = packetData[3];
                     double price = double.Parse(packetData[4]);
+                    List<Product> helpList = new List<Product>();
+                    foreach(Product product in chosenProductList)
+                    {
+                        helpList.Add(product);
+                    }
+             
+                    Console.WriteLine("HelpList: " + helpList.GetHashCode());
+                    Console.WriteLine("ChosenList: " + chosenProductList.GetHashCode());
+                    Console.WriteLine($"{user.firstName} {user.lastName} ordered the following products:");
+                    while (helpList.Count > 0)
+                    {
+                        int amountInList = 1;
+                        Product product = helpList[helpList.Count - 1];
+                        for (int j = (helpList.Count - 1); j > 0; j--)
+                        {
+                            if (product.name.Equals(helpList[j - 1].name) && product.price.Equals(helpList[j - 1].price))
+                            {
+                                amountInList++;
+                                helpList.Remove(helpList[j - 1]);
+                            }
+                        }
+                        Console.WriteLine($"{amountInList} {product.name}");
+                        helpList.Remove(product);
+                    }
+                    Console.WriteLine($"Total price: {price:##0.00}");
                     GenerateReceipt(restaurant, price);
                     break;
             }
@@ -110,7 +133,7 @@ namespace Take_Away_Server
             this.networkStream.Flush();
         }
 
-        private bool assertPacketData(string[] packetData, int requiredLength)
+        private bool AssertPacketData(string[] packetData, int requiredLength)
         {
             if (packetData.Length < requiredLength)
             {
@@ -124,9 +147,9 @@ namespace Take_Away_Server
         {
             Receipt receipt = new Receipt();
             receipt.restaurantName = restaurant;
-            receipt.buyername = user.FirstName + " " + user.LastName;
-            receipt.buyerPostalCode = user.PostalCode;
-            receipt.buyerHouseNumber = user.HouseNumber;
+            receipt.buyername = user.firstName + " " + user.lastName;
+            receipt.buyerPostalCode = user.postalCode;
+            receipt.buyerHouseNumber = user.houseNumber;
             receipt.boughtProducts = chosenProductList;
             receipt.totalPrice = price;
             Write($"getReceipt\r\n{receipt.ToString()}");
