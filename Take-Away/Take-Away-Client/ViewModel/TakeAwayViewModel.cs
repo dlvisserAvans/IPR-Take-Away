@@ -437,6 +437,8 @@ namespace Take_Away_Client.ViewModel
                 selectedRestaurant = JsonConvert.DeserializeObject<Restaurant>(content[0]); //restaurant from the file is the selected restaurant
                 selectedProducts = JsonConvert.DeserializeObject<ObservableCollection<Product>>(content[1]); //products from the file are filled in the right listview
 
+                Console.WriteLine(selectedProducts.Count);
+
                 UpdatePrice(); //update the price
                 return true;
             }

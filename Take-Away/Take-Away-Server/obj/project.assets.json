@@ -4946,19 +4946,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jkbro\\.nuget\\packages\\": {}
+    "C:\\Users\\Dave-\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
+      "projectUniqueName": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
       "projectName": "Take-Away-Server",
-      "projectPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
-      "packagesPath": "C:\\Users\\jkbro\\.nuget\\packages\\",
-      "outputPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\obj\\",
+      "projectPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\Take-Away-Server.csproj",
+      "packagesPath": "C:\\Users\\Dave-\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\jkbro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dave-\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4971,8 +4971,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj": {
-              "projectPath": "D:\\Github Repo\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj"
+            "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj": {
+              "projectPath": "C:\\Users\\Dave-\\SynologyDrive\\Documents\\Avans Hogeschool - Technische Informatica\\Periode 2.1\\Programming-Files\\IPR-Take-Away\\Take-Away\\Take-Away-Client\\Take-Away-Client.csproj"
             }
           }
         }

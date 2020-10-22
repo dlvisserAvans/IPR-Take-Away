@@ -46,7 +46,7 @@ namespace Take_Away_Server
             }
             catch (IOException)
             {
-                Server.Disconnect(this);
+                Server.Disconnect(this, tcpClient.Client.RemoteEndPoint.ToString());
                 return;
             }
 
@@ -70,7 +70,7 @@ namespace Take_Away_Server
         */
         private void HandleData(string[] packetData)
         {
-            Console.WriteLine("Packet recieved " + packetData[0]);
+            Console.WriteLine("Packet recieved " + packetData[0] + " from : " + this.tcpClient.Client.RemoteEndPoint.ToString());
             //The first packet is the header (message type). the other packets are the data
             switch (packetData[0])
             {
@@ -96,6 +96,31 @@ namespace Take_Away_Server
 
                     string restaurant = packetData[3];
                     double price = double.Parse(packetData[4]);
+                    List<Product> helpList = new List<Product>();
+                    foreach(Product product in chosenProductList)
+                    {
+                        helpList.Add(product);
+                    }
+             
+                    Console.WriteLine("HelpList: " + helpList.GetHashCode());
+                    Console.WriteLine("ChosenList: " + chosenProductList.GetHashCode());
+                    Console.WriteLine($"{user.firstName} {user.lastName} ordered the following products:");
+                    while (helpList.Count > 0)
+                    {
+                        int amountInList = 1;
+                        Product product = helpList[helpList.Count - 1];
+                        for (int j = (helpList.Count - 1); j > 0; j--)
+                        {
+                            if (product.name.Equals(helpList[j - 1].name) && product.price.Equals(helpList[j - 1].price))
+                            {
+                                amountInList++;
+                                helpList.Remove(helpList[j - 1]);
+                            }
+                        }
+                        Console.WriteLine($"{amountInList} {product.name}");
+                        helpList.Remove(product);
+                    }
+                    Console.WriteLine($"Total price: {price:##0.00}");
                     GenerateReceipt(restaurant, price);
                     break;
             }
